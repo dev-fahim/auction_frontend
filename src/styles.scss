@@ -1,0 +1,55 @@
+/* You can add global styles to this file, and also import other style files */
+@import "colors";
+$vertical-menu-icon-margin-right: 0.8em;
+
+.vertical-menu-icon {
+  margin-right: $vertical-menu-icon-margin-right;
+}
+
+.form-app-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+
+  margin-bottom: 2em;
+
+  &__header-text {
+    margin: 0;
+    padding: 0;
+  }
+
+  &__header-img {
+    width: 40px;
+  }
+}
+
+.form-body-header {
+  margin-bottom: 1.5em;
+}
+
+.auth-form {
+  border: 1px solid $primary-border-color;
+  border-radius: 1em;
+  padding: 2em;
+  width: 350px;
+  max-width: 350px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+}
+
+.auth-form-margin {
+  margin-bottom: 16px;
+}
+
+.auth-form-forgot {
+  float: right;
+}
+
+.auth-form-button {
+  width: 100%;
+}
+

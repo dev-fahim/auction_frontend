@@ -1,0 +1,41 @@
+<form
+  *ngIf="!emailSent; else emailSentPart"
+  nz-form [formGroup]="loginForm" class="auth-form" (ngSubmit)="submitForm()">
+  <div class="form-app-header">
+    <img class="form-app-header__header-img" src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
+    <h2 class="form-app-header__header-text">Digital Auction</h2>
+  </div>
+  <div class="form-body-header">
+    <h3>Reset Password</h3>
+  </div>
+  <nz-form-item>
+    <nz-form-control [nzErrorTip]="emailErrors">
+      <nz-input-group nzPrefixIcon="user">
+        <input type="email" nz-input formControlName="email" placeholder="Email"/>
+        <ng-template #emailErrors let-control>
+          <ng-container *ngIf="control.hasError('required')">Please input your email!</ng-container>
+          <ng-container *ngIf="control.hasError('email')">Invalid email format!</ng-container>
+        </ng-template>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <div nz-row class="auth-form-margin">
+    <button nz-button class="auth-form-button auth-form-margin" [nzType]="'primary'" [disabled]="isLoading"
+            [nzLoading]="isLoading">Request Password Reset
+    </button>
+    <div nz-col [nzSpan]="12">
+      Or
+      <a routerLink="/login">Login here</a>
+    </div>
+  </div>
+</form>
+
+<ng-template #emailSentPart>
+  <div class="auth-form">
+    <div class="form-app-header">
+      <img class="form-app-header__header-img" src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
+      <h2 class="form-app-header__header-text">Digital Auction</h2>
+    </div>
+    <nz-alert nzType="success" nzMessage="We've sent as email with reset link"></nz-alert>
+  </div>
+</ng-template>
