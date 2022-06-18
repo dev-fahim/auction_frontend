@@ -30,6 +30,7 @@ $vertical-menu-icon-margin-right: 0.8em;
 }
 
 .auth-form {
+  background-color: #ffffff;
   border: 1px solid $primary-border-color;
   border-radius: 1em;
   padding: 2em;
@@ -40,6 +41,13 @@ $vertical-menu-icon-margin-right: 0.8em;
   left: 50%;
   transform: translateY(-50%) translateX(-50%);
 }
+
+.dark-background {
+   background-color: #000C17 !important;
+   height: 100%;
+   width: 100%;
+ }
+
 
 .auth-form-margin {
   margin-bottom: 16px;
@@ -53,3 +61,16 @@ $vertical-menu-icon-margin-right: 0.8em;
   width: 100%;
 }
 
+.inner-app-content {
+  padding: 0 2em;
+  background: #fff;
+  height: 100%;
+}
+
+.inner-content-box {
+  padding-bottom: 2em;
+}
+
+.guid {
+  font-family: 'Roboto Mono', monospace !important;
+}

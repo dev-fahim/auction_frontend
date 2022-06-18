@@ -14,9 +14,15 @@ import {environment} from "../environments/environment";
 import {NzMessageModule} from "ng-zorro-antd/message";
 import {StorageService} from "../@auction/services/storage.service";
 import {AuthService} from "../@auction/services/auth.service";
-import {NzAlertModule} from "ng-zorro-antd/alert";
 import {AuthGuard} from "../@auction/guards/auth.guard";
 import {AuthNotGuard} from "../@auction/guards/auth-not.guard";
+import {TOKEN_KEY} from "../@auction/contants";
+import {en_US, NZ_I18N} from "ng-zorro-antd/i18n";
+import {NgxsModule} from "@ngxs/store";
+import {NgxsLoggerPluginModule} from "@ngxs/logger-plugin";
+import {NgxsReduxDevtoolsPluginModule} from "@ngxs/devtools-plugin";
+import {ProfileState} from "../@auction/store/profile/state";
+import {CategoryState} from "../@auction/store/category/state";
 
 registerLocaleData(en);
 
@@ -30,14 +36,20 @@ registerLocaleData(en);
     HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    NgxsModule.forRoot([ProfileState, CategoryState], {
+      developmentMode: !environment.production
+    }),
+    NgxsLoggerPluginModule.forRoot(),
+    NgxsReduxDevtoolsPluginModule.forRoot(),
     SharedComponentsModule,
     NzMessageModule,
     ApiModule.forRoot(() => new Configuration({
       apiKeys: {'ApiKeyAuth': environment.api_keys},
-      basePath: environment.api_base_path
+      basePath: environment.api_base_path,
+      accessToken: () => StorageService.get(TOKEN_KEY) ?? ''
     }))
   ],
-  providers: [StorageService, AuthService, AuthGuard, AuthNotGuard],
+  providers: [StorageService, AuthService, AuthGuard, AuthNotGuard, { provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
 })
 export class AppModule {

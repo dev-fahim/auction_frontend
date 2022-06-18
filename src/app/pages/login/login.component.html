@@ -1,43 +1,46 @@
-<form nz-form [formGroup]="loginForm" class="auth-form" (ngSubmit)="submitForm()">
-  <div class="form-app-header">
-    <img class="form-app-header__header-img" src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
-    <h2 class="form-app-header__header-text">Digital Auction</h2>
-  </div>
-  <div class="form-body-header">
-    <h3>Login</h3>
-  </div>
-  <nz-form-item>
-    <nz-form-control [nzErrorTip]="emailErrors">
-      <nz-input-group nzPrefixIcon="user">
-        <input type="email" nz-input formControlName="email" placeholder="Email"/>
-        <ng-template #emailErrors let-control>
-          <ng-container *ngIf="control.hasError('required')">Please input your email!</ng-container>
-          <ng-container *ngIf="control.hasError('email')">Invalid email format!</ng-container>
-        </ng-template>
-      </nz-input-group>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-control [nzErrorTip]="passwordErrors">
-      <nz-input-group nzPrefixIcon="lock">
-        <input type="password" nz-input formControlName="password" placeholder="Password"/>
-        <ng-template #passwordErrors let-control>
-          <ng-container *ngIf="control.hasError('required')">Please input your password!</ng-container>
-          <ng-container *ngIf="control.hasError('min')">Length should be at least 4 characters!</ng-container>
-        </ng-template>
-      </nz-input-group>
-    </nz-form-control>
-  </nz-form-item>
-  <div nz-row class="auth-form-margin">
-    <button nz-button class="auth-form-button auth-form-margin" [nzType]="'primary'" [disabled]="isLoading"
-            [nzLoading]="isLoading">Log in
-    </button>
-    <div nz-col [nzSpan]="12">
-      Or
-      <a routerLink="/register">register now!</a>
+<div class="dark-background">
+  <form nz-form [formGroup]="loginForm" class="auth-form" (ngSubmit)="submitForm()">
+    <div class="form-app-header">
+      <img class="form-app-header__header-img" src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
+      <h2 class="form-app-header__header-text">Digital Auction</h2>
     </div>
-    <div nz-col [nzSpan]="12">
-      <a class="auth-form-forgot" routerLink="/password-reset/enter-email">Forgot password</a>
+    <div class="form-body-header">
+      <h3>Login</h3>
     </div>
-  </div>
-</form>
+    <nz-form-item>
+      <nz-form-control [nzErrorTip]="emailErrors">
+        <nz-input-group nzPrefixIcon="user">
+          <input type="email" nz-input formControlName="email" placeholder="Email"/>
+          <ng-template #emailErrors let-control>
+            <ng-container *ngIf="control.hasError('required')">Please input your email!</ng-container>
+            <ng-container *ngIf="control.hasError('email')">Invalid email format!</ng-container>
+          </ng-template>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzErrorTip]="passwordErrors">
+        <nz-input-group nzPrefixIcon="lock">
+          <input type="password" nz-input formControlName="password" placeholder="Password"/>
+          <ng-template #passwordErrors let-control>
+            <ng-container *ngIf="control.hasError('required')">Please input your password!</ng-container>
+            <ng-container *ngIf="control.hasError('min')">Length should be at least 4 characters!</ng-container>
+          </ng-template>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <div nz-row class="auth-form-margin">
+      <button nz-button class="auth-form-button auth-form-margin" [nzType]="'primary'" [disabled]="isLoading"
+              [nzLoading]="isLoading">Log in
+      </button>
+      <div nz-col [nzSpan]="12">
+        Or
+        <a routerLink="/register">register now!</a>
+      </div>
+      <div nz-col [nzSpan]="12">
+        <a class="auth-form-forgot" routerLink="/password-reset/enter-email">Forgot password</a>
+      </div>
+    </div>
+  </form>
+
+</div>

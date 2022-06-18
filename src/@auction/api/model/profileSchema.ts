@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { VerificationStatusTypes } from './verificationStatusTypes';
 import { UserTypeEnum } from './userTypeEnum';
 import { UserSchema } from './userSchema';
 
@@ -21,6 +22,7 @@ export interface ProfileSchema {
     is_verified: boolean;
     verified_by?: UserSchema;
     verification_timestamp?: string;
+    status: VerificationStatusTypes;
     can_operate_product?: boolean;
     can_attend_auction?: boolean;
     can_login?: boolean;

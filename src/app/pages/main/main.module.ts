@@ -6,8 +6,6 @@ import { MainComponent } from './main.component';
 import {IconsProviderModule} from "../../icons-provider.module";
 import {NzLayoutModule} from "ng-zorro-antd/layout";
 import {NzMenuModule} from "ng-zorro-antd/menu";
-import {en_US, NZ_I18N} from "ng-zorro-antd/i18n";
-
 
 @NgModule({
   declarations: [
@@ -19,7 +17,6 @@ import {en_US, NZ_I18N} from "ng-zorro-antd/i18n";
     IconsProviderModule,
     NzLayoutModule,
     NzMenuModule,
-  ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }]
+  ]
 })
 export class MainModule { }

@@ -7,19 +7,19 @@ export class StorageService {
 
   constructor() { }
 
-  set(key: string, value: string): void {
+  public static set(key: string, value: string): void {
     localStorage.setItem(key, value);
   }
 
-  remove(key: string): void {
+  public static remove(key: string): void {
     localStorage.removeItem(key);
   }
 
-  clear(): void {
+  public static clear(): void {
     localStorage.clear();
   }
 
-  get(key: string): string | null {
+  public static get(key: string): string | null {
     return localStorage.getItem(key) ?? null;
   }
 }

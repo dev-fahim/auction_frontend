@@ -8,22 +8,26 @@ const routes: Routes = [
   {
     path: 'main',
     loadChildren: () => import('./pages/main/main.module').then(m => m.MainModule),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { animation: 'page' }
   },
   {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule),
-    canActivate: [AuthNotGuard]
+    canActivate: [AuthNotGuard],
+    data: { animation: 'page' }
   },
   {
     path: 'register',
     loadChildren: () => import('./pages/register/register.module').then(m => m.RegisterModule),
-    canActivate: [AuthNotGuard]
+    canActivate: [AuthNotGuard],
+    data: { animation: 'page' }
   },
   {
     path: 'password-reset',
     loadChildren: () => import('./pages/password-reset/password-reset.module').then(m => m.PasswordResetModule),
-    canActivate: [AuthNotGuard]
+    canActivate: [AuthNotGuard],
+    data: { animation: 'page' }
   }
 ];
 

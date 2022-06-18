@@ -16,7 +16,7 @@
         <ul>
           <li nz-menu-item nzMatchRouter>
             <i class="vertical-menu-icon" nz-icon [nzType]="'home'"></i>
-            <a routerLink="/main">Home</a>
+            <a routerLink="/main/home">Home</a>
           </li>
         </ul>
       </li>
@@ -24,11 +24,11 @@
         <ul>
           <li nz-menu-item nzMatchRouter>
             <i class="vertical-menu-icon" nz-icon [nzType]="'plus-circle'"></i>
-            <a>Add More</a>
+            <a routerLink="product/add">Add More</a>
           </li>
           <li nz-menu-item nzMatchRouter>
             <i class="vertical-menu-icon" nz-icon [nzType]="'database'"></i>
-            <a>All Products</a>
+            <a routerLink="product/all">All Products</a>
           </li>
         </ul>
       </li>
@@ -71,9 +71,9 @@
     </ul>
   </nz-sider>
   <nz-layout>
-    <nz-header>
+    <nz-header [ngStyle]="{marginLeft: isCollapsed ? '80px' : '256px'}">
       <div class="app-header">
-        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+        <span class="header-trigger" (click)="isCollapsed = !isCollapsed" >
             <i class="trigger"
                nz-icon
                [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
@@ -82,7 +82,7 @@
       </div>
     </nz-header>
     <nz-content>
-      <div class="inner-content">
+      <div class="inner-content" [ngStyle]="{marginLeft: isCollapsed ? '80px' : '256px'}">
         <router-outlet></router-outlet>
       </div>
     </nz-content>

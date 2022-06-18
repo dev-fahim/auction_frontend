@@ -1,0 +1,56 @@
+<div *ngIf="!permissionLoading">
+  <div *ngIf="(profile$ | async)!.can_operate_product; else notPermit">
+    <div *ngIf="product" class="inner-content-box">
+      <nz-descriptions [nzTitle]="title" nzBordered nzLayout="vertical" [nzExtra]="editButton">
+        <nz-descriptions-item
+          nzTitle="Product Identifier" [nzSpan]="2"
+        ><b class="guid">#{{product.guid | uppercase}}</b></nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Category">{{product.category?.name | uppercase}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Activity">
+          <nz-badge nzStatus="success" nzText="Active" *ngIf="product.is_active; else notActive"></nz-badge>
+          <ng-template #notActive>
+            <nz-badge nzStatus="error" nzText="Active"></nz-badge>
+          </ng-template>
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Permission">
+          <nz-badge nzStatus="success" nzText="Unlocked" *ngIf="product.is_updatable; else notUpdatable"></nz-badge>
+          <ng-template #notUpdatable>
+            <nz-badge nzStatus="error" nzText="Locked"></nz-badge>
+          </ng-template>
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Approval">
+          <nz-badge nzStatus="warning" nzText="Submit for approval process"
+                    *ngIf="product.status == 'NOT_SUBMITTED'"></nz-badge>
+          <nz-badge nzStatus="processing" nzText="Processing" *ngIf="product.status == 'IN_PROGRESS'"></nz-badge>
+          <nz-badge nzStatus="success" nzText="Accepted" *ngIf="product.status == 'ACCEPTED'"></nz-badge>
+          <nz-badge nzStatus="error" nzText="Rejected" *ngIf="product.status == 'REJECTED'"></nz-badge>
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Proposed Min Bid Price">{{product.min_bid_price | currency}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Bid Starts">{{product.bid_starts | date:'medium'}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Bid Ends">{{product.bid_starts | date:'medium'}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Description" [nzSpan]="3">{{product.description}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Added at">{{product.created | date:'medium'}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Last Modified">{{product.updated | date:'medium'}}</nz-descriptions-item>
+      </nz-descriptions>
+    </div>
+  </div>
+</div>
+
+<ng-template #editButton>
+  <button nz-button nzType="primary" nzShape="round">
+    <i nz-icon nzType="edit"></i>
+    Edit
+  </button>
+</ng-template>
+
+<ng-template #title>
+  <h3 nz-typography>{{product?.name}}</h3>
+</ng-template>
+
+<ng-template #notPermit>
+  <nz-result nzStatus="403" nzTitle="403" nzSubTitle="Sorry, you are not authorized for this action.">
+    <div nz-result-extra>
+      <a nz-button nzType="primary" routerLink="/main">Back Home</a>
+    </div>
+  </nz-result>
+</ng-template>

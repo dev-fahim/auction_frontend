@@ -11,15 +11,15 @@ export class AuthService {
   constructor(private storage: StorageService) { }
 
   get token(): string | null {
-    return this.storage.get(TOKEN_KEY);
+    return StorageService.get(TOKEN_KEY);
   }
 
   login(token: string): void {
-    this.storage.set(TOKEN_KEY, token);
+    StorageService.set(TOKEN_KEY, token);
   }
 
   logout(): void {
-    this.storage.remove(TOKEN_KEY);
+    StorageService.remove(TOKEN_KEY);
   }
 
   isLoggedIn(): boolean {

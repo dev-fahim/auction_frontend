@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { VerificationStatusTypes } from './verificationStatusTypes';
 import { CategorySchema } from './categorySchema';
 import { UserSchema } from './userSchema';
 
@@ -21,6 +22,7 @@ export interface ProductSchema {
     is_verified: boolean;
     verified_by?: UserSchema;
     verification_timestamp?: string;
+    status: VerificationStatusTypes;
     min_bid_price?: number;
     bid_starts?: string;
     bid_expires?: string;

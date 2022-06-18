@@ -1,0 +1,47 @@
+<div *ngIf="!permissionLoading">
+  <div *ngIf="(profile$ | async)!.can_operate_product; else notPermit">
+    <nz-table
+      [nzData]="listOfProducts"
+      [nzFrontPagination]="false"
+      [nzLoading]="isLoading"
+      [nzTotal]="products?.count ?? 100"
+      [nzPageSize]="pageSize"
+      [nzPageIndex]="currentPage"
+      (nzQueryParams)="onQueryParamsChange($event)"
+      nzSize="middle"
+    >
+      <thead>
+      <tr>
+        <th nzColumnKey="name" [nzSortFn]="true">Name</th>
+        <th nzColumnKey="created" >Added at</th>
+        <th nzColumnKey="is_verified" >Verification</th>
+        <th nzColumnKey="category" >Category</th>
+        <th>Auction Proposal</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of listOfProducts">
+        <td><a [routerLink]="['/main', 'product', 'edit', data.guid]">{{data.name}}</a></td>
+        <td>{{data.created | date}}</td>
+        <td>
+          <i *ngIf="data.is_verified; else notActive"
+             nz-icon nzType="check-circle" nzTheme="twotone" nzTwotoneColor="#02d87b"></i>
+          <ng-template #notActive>
+            <i nz-icon nzType="close-circle" nzTheme="twotone" nzTwotoneColor="#cc0000"></i>
+          </ng-template>
+        </td>
+        <td>{{data.category?.name | uppercase}}</td>
+        <td>{{data.bid_starts | date}} - {{data.bid_expires | date}} Begin with {{data.min_bid_price | currency}}</td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<ng-template #notPermit>
+  <nz-result nzStatus="403" nzTitle="403" nzSubTitle="Sorry, you are not authorized for this action.">
+    <div nz-result-extra>
+      <a nz-button nzType="primary" routerLink="/main">Back Home</a>
+    </div>
+  </nz-result>
+</ng-template>
