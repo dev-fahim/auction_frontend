@@ -23,7 +23,9 @@
                     *ngIf="product.status == 'NOT_SUBMITTED'"></nz-badge>
           <nz-badge nzStatus="processing" nzText="Processing" *ngIf="product.status == 'IN_PROGRESS'"></nz-badge>
           <nz-badge nzStatus="success" nzText="Accepted" *ngIf="product.status == 'ACCEPTED'"></nz-badge>
-          <nz-badge nzStatus="error" nzText="Rejected" *ngIf="product.status == 'REJECTED'"></nz-badge>
+          <ng-container *ngIf="product.status === 'REJECTED'">
+            <nz-alert nzType="error" nzMessage="Proposal Rejected" nzShowIcon nzIconType="warning"></nz-alert>
+          </ng-container>
         </nz-descriptions-item>
         <nz-descriptions-item nzTitle="Proposed Min Bid Price">{{product.min_bid_price | currency}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="Bid Starts">{{product.bid_starts | date:'medium'}}</nz-descriptions-item>
@@ -37,11 +39,23 @@
 </div>
 
 <ng-template #editButton>
-  <div >
+  <div *ngIf="product!.status === 'NOT_SUBMITTED' || product!.status === 'REJECTED'; else submittedForReview ">
     <a nz-button nzType="primary" nzShape="round" routerLink="update">
       <i nz-icon nzType="edit"></i>
       Edit
     </a>
+    <button
+      style="margin-left: 1em"
+      nz-popconfirm=""
+      nzPopconfirmTitle="Are you sure submit for review?"
+      (nzOnConfirm)="submitForProposal()"
+      nzPopconfirmPlacement="topRight"
+      nz-button
+      nzType="dashed" nzDanger nzShape="round"
+    >
+      <i nz-icon nzType="alert"></i>
+      {{product!.status === 'REJECTED' ? 'Resubmit for Review' : 'Submit for Review'}}
+    </button>
     <button
       style="margin-left: 1em"
       nz-popconfirm=""
@@ -55,6 +69,18 @@
       Delete
     </button>
   </div>
+</ng-template>
+
+<ng-template #submittedForReview>
+  <ng-container *ngIf="product!.status === 'IN_PROGRESS'; else accepted">
+    <nz-alert nzType="warning" nzMessage="Review in progress" nzShowIcon nzIconType="alert"></nz-alert>
+  </ng-container>
+</ng-template>
+
+<ng-template #accepted>
+  <ng-container *ngIf="product!.status === 'ACCEPTED';">
+    <nz-alert nzType="success" nzMessage="Proposal Accepted" nzShowIcon nzIconType="like"></nz-alert>
+  </ng-container>
 </ng-template>
 
 <ng-template #title>

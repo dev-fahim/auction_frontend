@@ -2,9 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {finalize} from "rxjs";
 import {AuthenticationService, PasswordResetService} from "../../../../@auction/api";
-import {NzMessageService} from "ng-zorro-antd/message";
-import {Router} from "@angular/router";
-import {AuthService} from "../../../../@auction/services/auth.service";
 
 @Component({
   selector: 'app-enter-email',
@@ -17,11 +14,7 @@ export class EnterEmailComponent implements OnInit {
   emailSent = false;
 
   constructor(private fb: FormBuilder,
-              private passwordResetService: PasswordResetService,
-              private message: NzMessageService,
-              private router: Router,
-              private auth: AuthService,
-              private authenticationService: AuthenticationService) { }
+              private passwordResetService: PasswordResetService) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({

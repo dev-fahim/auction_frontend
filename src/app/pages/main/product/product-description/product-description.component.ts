@@ -1,12 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ProductSchema, ProductsService, ProfileSchema} from "../../../../../@auction/api";
+import {ProductSchema, ProductsService, ProfileSchema, SubmitForProposalSchema} from "../../../../../@auction/api";
 import {ActivatedRoute} from "@angular/router";
 import {finalize, Observable, Subscription} from "rxjs";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {Select, Store} from "@ngxs/store";
 import {ProfileState} from "../../../../../@auction/store/profile/state";
 import {GetProfile} from "../../../../../@auction/store/profile/actions";
-import {DeleteProduct, GetSingleProduct} from "../../../../../@auction/store/product/actions";
+import {DeleteProduct, GetSingleProduct, ProductSubmitForProposal} from "../../../../../@auction/store/product/actions";
 import {ProductState} from "../../../../../@auction/store/product/state";
 
 @Component({
@@ -58,5 +58,12 @@ export class ProductDescriptionComponent implements OnInit, OnDestroy {
 
   deleteProduct(): void {
     this.store.dispatch(new DeleteProduct(this.guid ?? ''));
+  }
+
+  submitForProposal(): void {
+    const proposal: SubmitForProposalSchema = {
+      guid: this.guid ?? ''
+    }
+    this.store.dispatch(new ProductSubmitForProposal(proposal));
   }
 }

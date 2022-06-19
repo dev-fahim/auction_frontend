@@ -20,18 +20,52 @@
           </li>
         </ul>
       </li>
-      <li nz-submenu nzOpen nzTitle="Product" nzIcon="container">
-        <ul>
-          <li nz-menu-item nzMatchRouter>
-            <i class="vertical-menu-icon" nz-icon [nzType]="'plus-circle'"></i>
-            <a routerLink="product/add">Add More</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <i class="vertical-menu-icon" nz-icon [nzType]="'database'"></i>
-            <a routerLink="product/all">All Products</a>
-          </li>
-        </ul>
-      </li>
+      <ng-container *ngIf="(profile$ | async)">
+        <li nz-submenu nzOpen nzTitle="Products" nzIcon="container" *ngIf="(profile$ | async)!.can_operate_product">
+          <ul>
+            <li nz-menu-item nzMatchRouter>
+              <i class="vertical-menu-icon" nz-icon [nzType]="'plus-circle'"></i>
+              <a routerLink="product/add">Add More</a>
+            </li>
+            <li nz-menu-item nzMatchRouter>
+              <i class="vertical-menu-icon" nz-icon [nzType]="'database'"></i>
+              <a routerLink="product/all">All Products</a>
+            </li>
+          </ul>
+        </li>
+        <li nz-submenu nzOpen nzTitle="Auctions" nzIcon="container"  *ngIf="(profile$ | async)!.can_attend_auction">
+          <ul>
+            <li nz-menu-item nzMatchRouter>
+              <i class="vertical-menu-icon" nz-icon nzType="thunderbolt" nzTheme="outline"></i>
+              <a>Online Auctions</a>
+            </li>
+            <li nz-menu-item nzMatchRouter>
+              <i class="vertical-menu-icon" nz-icon [nzType]="'tags'"></i>
+              <a>Saved Auctions</a>
+            </li>
+            <li nz-menu-item nzMatchRouter>
+              <i class="vertical-menu-icon" nz-icon [nzType]="'database'"></i>
+              <a>Auction History</a>
+            </li>
+          </ul>
+        </li>
+        <li nz-submenu nzOpen nzTitle="Credits" nzIcon="plus-circle">
+          <ul>
+            <li nz-menu-item nzMatchRouter>
+              <i class="vertical-menu-icon" nz-icon [nzType]="'wallet'"></i>
+              <a>Credit Status</a>
+            </li>
+            <li nz-menu-item nzMatchRouter>
+              <i class="vertical-menu-icon" nz-icon [nzType]="'database'"></i>
+              <a>Transaction History</a>
+            </li>
+            <li nz-menu-item nzMatchRouter *ngIf="(profile$ | async)!.can_attend_auction">
+              <i class="vertical-menu-icon" nz-icon [nzType]="'plus-circle'"></i>
+              <a>Request Top-Up</a>
+            </li>
+          </ul>
+        </li>
+      </ng-container>
       <li nz-submenu nzOpen nzTitle="Profile" nzIcon="user">
         <ul>
           <li nz-menu-item nzMatchRouter>
@@ -73,7 +107,7 @@
   <nz-layout>
     <nz-header [ngStyle]="{marginLeft: isCollapsed ? '80px' : '256px'}">
       <div class="app-header">
-        <span class="header-trigger" (click)="isCollapsed = !isCollapsed" >
+        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
             <i class="trigger"
                nz-icon
                [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"

@@ -1,4 +1,4 @@
-<div class="inner-content-box" *ngIf="!permissionLoading && !isProductLoading">
+<div class="inner-content-box" *ngIf="!permissionLoading">
   <form class="universal-form"
         nzLayout="vertical"
         (ngSubmit)="onSubmit()"
@@ -9,75 +9,77 @@
         <span *ngIf="guid" class="guid"> - #{{guid | uppercase}}</span>
       </h3>
     </div>
-    <nz-form-item>
-      <nz-form-label nzRequired>Product Name</nz-form-label>
-      <nz-form-control>
-        <input
-          nz-input
-          placeholder="Name"
-          formControlName="name"
-        />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzRequired>Category</nz-form-label>
-      <nz-form-control>
-        <nz-select
-          nzPlaceHolder="Select Category"
-          nzAllowClear
-          nzShowSearch
-          formControlName="category"
-        >
-          <ng-container *ngFor="let o of categories$ | async">
-            <nz-option *ngIf="!isCategoriesLoading" [nzValue]="o.guid" [nzLabel]="o.name | uppercase"></nz-option>
-          </ng-container>
-          <nz-option *ngIf="isCategoriesLoading" nzDisabled nzCustomContent>
-            <i nz-icon nzType="loading" class="loading-icon"></i>
-            Loading Data...
-          </nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzRequired>Description</nz-form-label>
-      <nz-form-control>
+    <ng-container *ngIf="!isProductLoading">
+      <nz-form-item>
+        <nz-form-label nzRequired>Product Name</nz-form-label>
+        <nz-form-control>
+          <input
+            nz-input
+            placeholder="Name"
+            formControlName="name"
+          />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired>Category</nz-form-label>
+        <nz-form-control>
+          <nz-select
+            nzPlaceHolder="Select Category"
+            nzAllowClear
+            nzShowSearch
+            formControlName="category"
+          >
+            <ng-container *ngFor="let o of categories$ | async">
+              <nz-option *ngIf="!isCategoriesLoading" [nzValue]="o.guid" [nzLabel]="o.name | uppercase"></nz-option>
+            </ng-container>
+            <nz-option *ngIf="isCategoriesLoading" nzDisabled nzCustomContent>
+              <i nz-icon nzType="loading" class="loading-icon"></i>
+              Loading Data...
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired>Description</nz-form-label>
+        <nz-form-control>
         <textarea
           nz-input
           placeholder="Description"
           formControlName="description"
         ></textarea>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-divider nzText="These are your proposals" nzOrientation="center"></nz-divider>
-    <nz-form-item>
-      <nz-form-label nzRequired>Starting Price</nz-form-label>
-      <nz-form-control>
-        <nz-input-number
-          type="number"
-          style="width: 100%"
-          [nzMin]="100"
-          [nzStep]="1"
-          nzPlaceHolder="Minimum Bidding Amount"
-          formControlName="min_bid_price"
-      ></nz-input-number>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzRequired>Bid Duration</nz-form-label>
-      <nz-form-control>
-        <nz-range-picker (nzOnCalendarChange)="splitRangedDatetime($event)"
-                         [nzDisabledDate]="disabledDate"
-                         style="width: 100%"
-                         [nzShowTime]="{nzUse12Hours: true}"
-                         nzFormat="yyyy-MM-dd HH:mm:ss a"
-                         [nzDefaultPickerValue]="has_default_dates ? [bid_starts, bid_expires] : []"
-                         nzMode="date"></nz-range-picker>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <button nz-button nzType="primary" [nzLoading]="isLoading" *ngIf="guid">Update Product</button>
-      <button nz-button nzType="primary" [nzLoading]="isLoading" *ngIf="!guid">Submit Product</button>
-    </nz-form-item>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-divider nzText="These are your proposals" nzOrientation="center"></nz-divider>
+      <nz-form-item>
+        <nz-form-label nzRequired>Starting Price</nz-form-label>
+        <nz-form-control>
+          <nz-input-number
+            type="number"
+            style="width: 100%"
+            [nzMin]="100"
+            [nzStep]="1"
+            nzPlaceHolder="Minimum Bidding Amount"
+            formControlName="min_bid_price"
+          ></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired>Bid Duration</nz-form-label>
+        <nz-form-control>
+          <nz-range-picker (nzOnCalendarChange)="splitRangedDatetime($event)"
+                           [nzDisabledDate]="disabledDate"
+                           style="width: 100%"
+                           [nzShowTime]="{nzUse12Hours: true}"
+                           nzFormat="yyyy-MM-dd HH:mm:ss a"
+                           [nzDefaultPickerValue]="has_default_dates ? [bid_starts, bid_expires] : []"
+                           nzMode="date"></nz-range-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <button nz-button nzType="primary" [nzLoading]="isLoading" *ngIf="guid">Update Product</button>
+        <button nz-button nzType="primary" [nzLoading]="isLoading" *ngIf="!guid">Submit Product</button>
+      </nz-form-item>
+    </ng-container>
   </form>
 
 </div>

@@ -23,6 +23,7 @@ export * from './requestPasswordResetTokenSchema';
 export * from './resetPasswordSchema';
 export * from './signInSchema';
 export * from './signUpSchema';
+export * from './submitForProposalSchema';
 export * from './updateProductSchema';
 export * from './userSchema';
 export * from './userTokenSchema';

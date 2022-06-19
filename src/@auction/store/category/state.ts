@@ -39,10 +39,6 @@ export class CategoryState {
           this.msg.warning('Error getting categories');
         }
       }),
-      catchError((e) => {
-        this.msg.warning('Something went wrong');
-        throw e;
-      }),
       finalize(() => {
         this.msg.remove(loadingId);
       })

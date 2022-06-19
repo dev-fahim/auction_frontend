@@ -62,7 +62,6 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   productSubscription?: Subscription;
 
   disabledDate = (current: Date): boolean =>
-    // Can not select days before today and today
     differenceInCalendarDays(current, Date.now()) < 1;
 
   constructor(private store: Store,
@@ -84,44 +83,54 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       })
     ).subscribe({
       next: () => {
-        this.isCategoriesLoading = true;
-        this.categoriesSubscription = this.store.dispatch(new GetCategories()).pipe(
-          finalize(() => {
-            this.isCategoriesLoading = false;
-          })
-        ).subscribe({
-          next: () => {
-            if (this.guid) {
-              this.isLoading = true;
-              this.isProductLoading = true;
-              this.store.dispatch(new GetSingleProduct(this.guid)).subscribe({
-                next: () => {
-                  this.productSubscription = this.selectedProduct$!.subscribe({
-                    next: (val) => {
-                      this.bid_starts = new Date(Date.parse(val.bid_starts ?? ''));
-                      this.bid_expires = new Date(Date.parse(val.bid_expires ?? ''));
-                      this.has_default_dates = true;
-                      this.form.setValue({
-                        name: val.name,
-                        category: val.category?.guid,
-                        bid_starts: val.bid_starts,
-                        bid_expires: val.bid_expires,
-                        description: val.description,
-                        min_bid_price: val.min_bid_price
-                      });
+        this.profileSubscription = this.profile$?.subscribe({
+          next: (profile) => {
+            if (profile.can_operate_product) {
+              this.isCategoriesLoading = true;
+              this.categoriesSubscription = this.store.dispatch(new GetCategories()).pipe(
+                finalize(() => {
+                  this.isCategoriesLoading = false;
+                })
+              ).subscribe();
 
-                      this.isLoading = false;
-                      this.isProductLoading = false;
-                    },
-                    error: () => {
-                      this.router.navigate(['/main', 'product', 'all'])
-                    }
-                  });
-                }
-              });
-            } else {
-              this.isProductLoading = false;
-              this.isLoading = false;
+              if (this.guid) {
+                this.isLoading = true;
+                this.isProductLoading = true;
+                this.store.dispatch(new GetSingleProduct(this.guid)).subscribe({
+                  next: () => {
+                    this.productSubscription = this.selectedProduct$!.subscribe({
+                      next: (val) => {
+                        this.isLoading = false;
+                        this.isProductLoading = false;
+
+                        if (!val.is_updatable) {
+                          this.msg.error('Product is submitted for review, so it\'s locked now');
+                          this.router.navigate(['/main', 'product', 'edit', val.guid]);
+                          return;
+                        }
+
+                        this.bid_starts = new Date(Date.parse(val.bid_starts ?? ''));
+                        this.bid_expires = new Date(Date.parse(val.bid_expires ?? ''));
+                        this.has_default_dates = true;
+                        this.form.setValue({
+                          name: val.name,
+                          category: val.category?.guid,
+                          bid_starts: val.bid_starts,
+                          bid_expires: val.bid_expires,
+                          description: val.description,
+                          min_bid_price: val.min_bid_price
+                        });
+                      },
+                      error: () => {
+                        this.router.navigate(['/main', 'product', 'all'])
+                      }
+                    });
+                  }
+                });
+              } else {
+                this.isProductLoading = false;
+                this.isLoading = false;
+              }
             }
           }
         });

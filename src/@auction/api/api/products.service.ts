@@ -29,6 +29,8 @@ import { ProductListSchema } from '../model/productListSchema';
 // @ts-ignore
 import { ProductSchema } from '../model/productSchema';
 // @ts-ignore
+import { SubmitForProposalSchema } from '../model/submitForProposalSchema';
+// @ts-ignore
 import { UpdateProductSchema } from '../model/updateProductSchema';
 
 // @ts-ignore
@@ -415,6 +417,80 @@ export class ProductsService {
         }
 
         return this.httpClient.get<ProductSchema>(`${this.configuration.basePath}/api/products/get/${encodeURIComponent(String(guid))}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Product Submit For Proposal
+     * @param submitForProposalSchema 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public productApiViewsProductSubmitForProposal(submitForProposalSchema: SubmitForProposalSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<ProductSchema>;
+    public productApiViewsProductSubmitForProposal(submitForProposalSchema: SubmitForProposalSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<ProductSchema>>;
+    public productApiViewsProductSubmitForProposal(submitForProposalSchema: SubmitForProposalSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<ProductSchema>>;
+    public productApiViewsProductSubmitForProposal(submitForProposalSchema: SubmitForProposalSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (submitForProposalSchema === null || submitForProposalSchema === undefined) {
+            throw new Error('Required parameter submitForProposalSchema was null or undefined when calling productApiViewsProductSubmitForProposal.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (JWTAuth) required
+        localVarCredential = this.configuration.lookupCredential('JWTAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        return this.httpClient.post<ProductSchema>(`${this.configuration.basePath}/api/products/submit-for-proposal`,
+            submitForProposalSchema,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

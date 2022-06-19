@@ -25,6 +25,7 @@ import {ProductFormComponent} from './product-form/product-form.component';
 import { ProductUpdateComponent } from './product-description/product-update/product-update.component';
 import {NzInputNumberModule} from "ng-zorro-antd/input-number";
 import {NzPopconfirmModule} from "ng-zorro-antd/popconfirm";
+import {NzAlertModule} from "ng-zorro-antd/alert";
 
 
 @NgModule({
@@ -37,26 +38,27 @@ import {NzPopconfirmModule} from "ng-zorro-antd/popconfirm";
     ProductUpdateComponent
   ],
   imports: [
-    CommonModule,
-    ProductRoutingModule,
-    NzPageHeaderModule,
-    IconsProviderModule,
-    NzTableModule,
-    NzDescriptionsModule,
-    NzBadgeModule,
-    NzButtonModule,
-    NzTypographyModule,
-    NzInputModule,
-    ReactiveFormsModule,
-    NzFormModule,
-    NzCheckboxModule,
-    NzSelectModule,
-    NzDatePickerModule,
-    NzResultModule,
-    FormsModule,
-    NzDividerModule,
-    NzInputNumberModule,
-    NzPopconfirmModule,
+	CommonModule,
+	ProductRoutingModule,
+	NzPageHeaderModule,
+	IconsProviderModule,
+	NzTableModule,
+	NzDescriptionsModule,
+	NzBadgeModule,
+	NzButtonModule,
+	NzTypographyModule,
+	NzInputModule,
+	ReactiveFormsModule,
+	NzFormModule,
+	NzCheckboxModule,
+	NzSelectModule,
+	NzDatePickerModule,
+	NzResultModule,
+	FormsModule,
+	NzDividerModule,
+	NzInputNumberModule,
+	NzPopconfirmModule,
+	NzAlertModule,
   ],
 })
 export class ProductModule {

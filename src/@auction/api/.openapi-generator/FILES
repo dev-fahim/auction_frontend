@@ -38,6 +38,7 @@ model/requestPasswordResetTokenSchema.ts
 model/resetPasswordSchema.ts
 model/signInSchema.ts
 model/signUpSchema.ts
+model/submitForProposalSchema.ts
 model/updateProductSchema.ts
 model/userSchema.ts
 model/userTokenSchema.ts

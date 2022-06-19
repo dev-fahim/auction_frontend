@@ -2,7 +2,14 @@ import {Action, Selector, State, StateContext, Store} from "@ngxs/store";
 import {Injectable} from "@angular/core";
 import {ProductStateModel} from "./model";
 import {ProductSchema, ProductsService} from "../../api";
-import {CreateProduct, DeleteProduct, GetAllProducts, GetSingleProduct, UpdateProduct} from "./actions";
+import {
+  CreateProduct,
+  DeleteProduct,
+  GetAllProducts,
+  GetSingleProduct,
+  ProductSubmitForProposal,
+  UpdateProduct
+} from "./actions";
 import {finalize, tap} from "rxjs";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {Navigate} from "@ngxs/router-plugin";
@@ -151,6 +158,31 @@ export class ProductState {
         },
         error: () => {
           this.msg.warning('Error while deleting product');
+          this.setError(ctx);
+        }
+      }),
+      finalize(() => {
+        this.msg.remove(loadingMsg);
+      })
+    );
+  }
+
+  @Action(ProductSubmitForProposal)
+  productSubmitForProposal(ctx: StateContext<ProductStateModel>, action: ProductSubmitForProposal) {
+    const state = ctx.getState();
+    this.setLoading(ctx);
+    const loadingMsg = this.msg.loading('Submitting...', {nzDuration: 0}).messageId;
+    return this.productService.productApiViewsProductSubmitForProposal(action.payload).pipe(
+      tap({
+        next: (res) => {
+          ctx.setState(produce<ProductStateModel>(state, (draft) => {
+            draft.selectedProduct = res;
+          }));
+          this.setLoaded(ctx);
+          this.store.dispatch(new Navigate(['/main', 'product', 'edit', res.guid]))
+        },
+        error: () => {
+          this.msg.warning('Error while submitting for proposal');
           this.setError(ctx);
         }
       }),

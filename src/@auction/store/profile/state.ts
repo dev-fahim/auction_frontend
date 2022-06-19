@@ -39,10 +39,6 @@ export class ProfileState {
           this.msg.warning('Error getting profile');
         }
       }),
-      catchError((e) => {
-        this.msg.warning('Something went wrong');
-        throw e;
-      }),
       finalize(() => {
         this.msg.remove(loadingId);
       })

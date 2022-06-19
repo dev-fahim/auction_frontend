@@ -1,4 +1,4 @@
-import {CreateProductSchema, UpdateProductSchema} from "../../api";
+import {CreateProductSchema, SubmitForProposalSchema, UpdateProductSchema} from "../../api";
 
 export class GetAllProducts {
   public static readonly type: string = '[Product] get all products';
@@ -27,5 +27,11 @@ export class DeleteProduct {
 export class CreateProduct {
   public static readonly type: string = '[Product] create product';
   constructor(public payload: CreateProductSchema) {
+  }
+}
+
+export class ProductSubmitForProposal {
+  public static readonly type: string = '[Product] product submit for proposal';
+  constructor(public payload: SubmitForProposalSchema) {
   }
 }
