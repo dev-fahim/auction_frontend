@@ -1,6 +1,6 @@
 <div *ngIf="!permissionLoading">
   <div *ngIf="(profile$ | async)!.can_operate_product; else notPermit">
-    <div *ngIf="product" class="inner-content-box">
+    <div *ngIf="product && (productStateStatus$ | async)! === 'loaded'" class="inner-content-box">
       <nz-descriptions [nzTitle]="title" nzBordered nzLayout="vertical" [nzExtra]="editButton">
         <nz-descriptions-item
           nzTitle="Product Identifier" [nzSpan]="2"
@@ -27,7 +27,7 @@
         </nz-descriptions-item>
         <nz-descriptions-item nzTitle="Proposed Min Bid Price">{{product.min_bid_price | currency}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="Bid Starts">{{product.bid_starts | date:'medium'}}</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Bid Ends">{{product.bid_starts | date:'medium'}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Bid Ends">{{product.bid_expires | date:'medium'}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="Description" [nzSpan]="3">{{product.description}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="Added at">{{product.created | date:'medium'}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="Last Modified">{{product.updated | date:'medium'}}</nz-descriptions-item>
@@ -37,10 +37,24 @@
 </div>
 
 <ng-template #editButton>
-  <button nz-button nzType="primary" nzShape="round">
-    <i nz-icon nzType="edit"></i>
-    Edit
-  </button>
+  <div >
+    <a nz-button nzType="primary" nzShape="round" routerLink="update">
+      <i nz-icon nzType="edit"></i>
+      Edit
+    </a>
+    <button
+      style="margin-left: 1em"
+      nz-popconfirm=""
+      nzPopconfirmTitle="Are you sure delete this product?"
+      (nzOnConfirm)="deleteProduct()"
+      nzPopconfirmPlacement="topRight"
+      nz-button
+      nzType="primary" nzDanger nzShape="round"
+    >
+      <i nz-icon nzType="delete"></i>
+      Delete
+    </button>
+  </div>
 </ng-template>
 
 <ng-template #title>

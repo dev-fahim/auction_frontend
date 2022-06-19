@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { ProductRoutingModule } from './product-routing.module';
-import { ProductComponent } from './product.component';
+import {ProductRoutingModule} from './product-routing.module';
+import {ProductComponent} from './product.component';
 import {NzPageHeaderModule} from "ng-zorro-antd/page-header";
-import { ProductsTableComponent } from './products-table/products-table.component';
-import { ProductEditComponent } from './product-edit/product-edit.component';
+import {ProductsTableComponent} from './products-table/products-table.component';
+import {ProductDescriptionComponent} from './product-description/product-description.component';
 import {NzTableModule} from "ng-zorro-antd/table";
 import {IconsProviderModule} from "../../../icons-provider.module";
 import {NzDescriptionsModule} from "ng-zorro-antd/descriptions";
@@ -14,38 +14,50 @@ import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzTypographyModule} from "ng-zorro-antd/typography";
 import {ProductAddComponent} from "./product-add/product-add.component";
 import {NzInputModule} from "ng-zorro-antd/input";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NzFormModule} from "ng-zorro-antd/form";
 import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
 import {NzSelectModule} from "ng-zorro-antd/select";
 import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
 import {NzResultModule} from "ng-zorro-antd/result";
+import {NzDividerModule} from "ng-zorro-antd/divider";
+import {ProductFormComponent} from './product-form/product-form.component';
+import { ProductUpdateComponent } from './product-description/product-update/product-update.component';
+import {NzInputNumberModule} from "ng-zorro-antd/input-number";
+import {NzPopconfirmModule} from "ng-zorro-antd/popconfirm";
 
 
 @NgModule({
   declarations: [
     ProductComponent,
     ProductsTableComponent,
-    ProductEditComponent,
-    ProductAddComponent
+    ProductDescriptionComponent,
+    ProductAddComponent,
+    ProductFormComponent,
+    ProductUpdateComponent
   ],
   imports: [
-	CommonModule,
-	ProductRoutingModule,
-	NzPageHeaderModule,
-	IconsProviderModule,
-	NzTableModule,
-	NzDescriptionsModule,
-	NzBadgeModule,
-	NzButtonModule,
-	NzTypographyModule,
-	NzInputModule,
-	ReactiveFormsModule,
-	NzFormModule,
-	NzCheckboxModule,
-	NzSelectModule,
-	NzDatePickerModule,
-	NzResultModule,
+    CommonModule,
+    ProductRoutingModule,
+    NzPageHeaderModule,
+    IconsProviderModule,
+    NzTableModule,
+    NzDescriptionsModule,
+    NzBadgeModule,
+    NzButtonModule,
+    NzTypographyModule,
+    NzInputModule,
+    ReactiveFormsModule,
+    NzFormModule,
+    NzCheckboxModule,
+    NzSelectModule,
+    NzDatePickerModule,
+    NzResultModule,
+    FormsModule,
+    NzDividerModule,
+    NzInputNumberModule,
+    NzPopconfirmModule,
   ],
 })
-export class ProductModule { }
+export class ProductModule {
+}

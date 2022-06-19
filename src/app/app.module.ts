@@ -23,6 +23,8 @@ import {NgxsLoggerPluginModule} from "@ngxs/logger-plugin";
 import {NgxsReduxDevtoolsPluginModule} from "@ngxs/devtools-plugin";
 import {ProfileState} from "../@auction/store/profile/state";
 import {CategoryState} from "../@auction/store/category/state";
+import {ProductState} from "../@auction/store/product/state";
+import {NgxsRouterPluginModule} from "@ngxs/router-plugin";
 
 registerLocaleData(en);
 
@@ -36,11 +38,12 @@ registerLocaleData(en);
     HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    NgxsModule.forRoot([ProfileState, CategoryState], {
+    NgxsModule.forRoot([ProfileState, CategoryState, ProductState], {
       developmentMode: !environment.production
     }),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
+    NgxsRouterPluginModule.forRoot(),
     SharedComponentsModule,
     NzMessageModule,
     ApiModule.forRoot(() => new Configuration({

@@ -1,10 +1,10 @@
 <div *ngIf="!permissionLoading">
   <div *ngIf="(profile$ | async)!.can_operate_product; else notPermit">
     <nz-table
-      [nzData]="listOfProducts"
+      [nzData]="(allProducts$ | async)!"
       [nzFrontPagination]="false"
-      [nzLoading]="isLoading"
-      [nzTotal]="products?.count ?? 100"
+      [nzLoading]="(productStateStatus$ | async) === 'loading'"
+      [nzTotal]="(totalRecords | async) ?? 100"
       [nzPageSize]="pageSize"
       [nzPageIndex]="currentPage"
       (nzQueryParams)="onQueryParamsChange($event)"
@@ -20,7 +20,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let data of listOfProducts">
+      <tr *ngFor="let data of (allProducts$ | async)!">
         <td><a [routerLink]="['/main', 'product', 'edit', data.guid]">{{data.name}}</a></td>
         <td>{{data.created | date}}</td>
         <td>
