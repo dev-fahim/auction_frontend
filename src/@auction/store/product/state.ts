@@ -7,7 +7,7 @@ import {
   DeleteProduct,
   GetAllProducts,
   GetSingleProduct,
-  ProductSubmitForProposal,
+  ProductSubmitForProposal, UnselectSingleProduct,
   UpdateProduct
 } from "./actions";
 import {finalize, tap} from "rxjs";
@@ -101,6 +101,7 @@ export class ProductState {
   getSingleProduct(ctx: StateContext<ProductStateModel>, action: GetSingleProduct) {
     const state = ctx.getState();
     this.setLoading(ctx);
+    // const loadingMsg = this.msg.loading('Please wait...', {nzDuration: 0}).messageId;
     return this.productService.productApiViewsGetProductObject(action.guid).pipe(
       tap({
         next: (res) => {
@@ -113,8 +114,20 @@ export class ProductState {
           this.msg.warning('Error while getting product');
           this.setError(ctx);
         }
+      }),
+      finalize(() => {
+        // this.msg.remove(loadingMsg);
       })
     );
+  }
+
+  @Action(UnselectSingleProduct)
+  unselectSingleProduct(ctx: StateContext<ProductStateModel>, action: UnselectSingleProduct) {
+    const state = ctx.getState();
+    ctx.setState(produce<ProductStateModel>(state, (draft) => {
+      draft.selectedProduct = null;
+    }));
+    this.setLoaded(ctx);
   }
 
   @Action(UpdateProduct)
@@ -179,7 +192,7 @@ export class ProductState {
             draft.selectedProduct = res;
           }));
           this.setLoaded(ctx);
-          this.store.dispatch(new Navigate(['/main', 'product', 'edit', res.guid]))
+          // this.store.dispatch(new Navigate(['/main', 'product', 'edit', res.guid]))
         },
         error: () => {
           this.msg.warning('Error while submitting for proposal');

@@ -12,6 +12,10 @@ export class GetSingleProduct {
   }
 }
 
+export class UnselectSingleProduct {
+  public static readonly type: string = '[Product] unselect single product';
+}
+
 export class UpdateProduct {
   public static readonly type: string = '[Product] update product';
   constructor(public guid: string, public payload: UpdateProductSchema) {

@@ -25,7 +25,7 @@ export class CategoryState {
 
   @Action(GetCategories)
   getProfile(ctx: StateContext<CategoryStateModel>, action: GetCategories) {
-    const loadingId = this.msg.loading('Please wait...', {nzDuration: 0}).messageId;
+    // const loadingId = this.msg.loading('Please wait...', {nzDuration: 0}).messageId;
     return this.productService.productApiViewsGetAllCategories().pipe(
       tap({
         next: (res) => {
@@ -40,7 +40,7 @@ export class CategoryState {
         }
       }),
       finalize(() => {
-        this.msg.remove(loadingId);
+        // this.msg.remove(loadingId);
       })
     );
   }

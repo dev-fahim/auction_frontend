@@ -26,6 +26,7 @@ import { ProductUpdateComponent } from './product-description/product-update/pro
 import {NzInputNumberModule} from "ng-zorro-antd/input-number";
 import {NzPopconfirmModule} from "ng-zorro-antd/popconfirm";
 import {NzAlertModule} from "ng-zorro-antd/alert";
+import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
 
 
 @NgModule({
@@ -59,6 +60,7 @@ import {NzAlertModule} from "ng-zorro-antd/alert";
 	NzInputNumberModule,
 	NzPopconfirmModule,
 	NzAlertModule,
+	NzSkeletonModule,
   ],
 })
 export class ProductModule {

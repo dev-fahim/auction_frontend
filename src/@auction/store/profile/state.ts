@@ -25,7 +25,7 @@ export class ProfileState {
 
   @Action(GetProfile)
   getProfile(ctx: StateContext<ProfileStateModel>, action: GetProfile) {
-    const loadingId = this.msg.loading('Please wait...', {nzDuration: 0}).messageId;
+    // const loadingId = this.msg.loading('Please wait...', {nzDuration: 0}).messageId;
     return this.profileService.userProfileApiViewsGetProfileObject().pipe(
       tap({
         next: (res) => {
@@ -40,7 +40,7 @@ export class ProfileState {
         }
       }),
       finalize(() => {
-        this.msg.remove(loadingId);
+        // this.msg.remove(loadingId);
       })
     );
   }

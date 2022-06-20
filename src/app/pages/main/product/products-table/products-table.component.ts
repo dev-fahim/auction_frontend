@@ -18,11 +18,9 @@ import {ProductState} from "../../../../../@auction/store/product/state";
 export class ProductsTableComponent implements OnInit {
   currentPage = 1;
   pageSize = 10;
-  permissionLoading = true;
 
   @Select(ProfileState.profile)
-  profile$: Observable<ProfileSchema> | undefined;
-  profileSubscription: Subscription | null = null;
+  profile$?: Observable<ProfileSchema>;
 
   @Select(ProductState.allProducts)
   allProducts$?: Observable<Array<ProductSchema>>
@@ -41,20 +39,11 @@ export class ProductsTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.profileSubscription = this.store.dispatch(new GetProfile()).pipe(
-      finalize(() => {
-        this.permissionLoading = false;
-        this.profileSubscription?.unsubscribe();
-      })
-    ).subscribe({
-      next: (v) => {
-        this.acRoute.queryParamMap.subscribe({
-          next: (params) => {
-            this.currentPage = parseInt(params.get('page') ?? '1');
-            if (this.currentPage < 1) this.currentPage = 1;
-            this.loadProducts(this.currentPage);
-          }
-        });
+    this.acRoute.queryParamMap.subscribe({
+      next: (params) => {
+        this.currentPage = parseInt(params.get('page') ?? '1');
+        if (this.currentPage < 1) this.currentPage = 1;
+        this.loadProducts(this.currentPage);
       }
     });
   }

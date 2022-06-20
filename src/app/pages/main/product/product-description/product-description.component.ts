@@ -6,7 +6,12 @@ import {NzMessageService} from "ng-zorro-antd/message";
 import {Select, Store} from "@ngxs/store";
 import {ProfileState} from "../../../../../@auction/store/profile/state";
 import {GetProfile} from "../../../../../@auction/store/profile/actions";
-import {DeleteProduct, GetSingleProduct, ProductSubmitForProposal} from "../../../../../@auction/store/product/actions";
+import {
+  DeleteProduct,
+  GetSingleProduct,
+  ProductSubmitForProposal,
+  UnselectSingleProduct
+} from "../../../../../@auction/store/product/actions";
 import {ProductState} from "../../../../../@auction/store/product/state";
 
 @Component({
@@ -18,7 +23,6 @@ export class ProductDescriptionComponent implements OnInit, OnDestroy {
   productSubscription?: Subscription;
   product: ProductSchema | null = null;
   guid: string | null = '';
-  permissionLoading = true;
 
   @Select(ProfileState.profile)
   profile$: Observable<ProfileSchema> | undefined;
@@ -38,19 +42,12 @@ export class ProductDescriptionComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.productSubscription?.unsubscribe();
     this.profileSubscription?.unsubscribe();
+    this.store.dispatch(new UnselectSingleProduct())
   }
 
   ngOnInit(): void {
-    this.profileSubscription = this.store.dispatch(new GetProfile()).pipe(
-      finalize(() => {
-        this.permissionLoading = false;
-      })
-    ).subscribe({
-      next: () => {
-        this.guid = this.acRouter.snapshot.paramMap.get('guid');
-        this.store.dispatch(new GetSingleProduct(this.guid ?? ''));
-      }
-    });
+    this.guid = this.acRouter.snapshot.paramMap.get('guid');
+    this.store.dispatch(new GetSingleProduct(this.guid ?? ''));
     this.productSubscription = this.product$?.subscribe({
       next: (val) => this.product = val
     })

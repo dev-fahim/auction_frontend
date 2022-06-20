@@ -1,4 +1,4 @@
-<div *ngIf="!permissionLoading">
+<div *ngIf="(profile$ | async); else loading">
   <div *ngIf="(profile$ | async)!.can_operate_product; else notPermit">
     <nz-table
       [nzData]="(allProducts$ | async)!"
@@ -37,6 +37,13 @@
     </nz-table>
   </div>
 </div>
+
+<ng-template #loading>
+  <nz-skeleton [nzActive]="true"></nz-skeleton>
+  <nz-skeleton [nzActive]="true"></nz-skeleton>
+  <nz-skeleton [nzActive]="true"></nz-skeleton>
+  <nz-skeleton [nzActive]="true"></nz-skeleton>
+</ng-template>
 
 <ng-template #notPermit>
   <nz-result nzStatus="403" nzTitle="403" nzSubTitle="Sorry, you are not authorized for this action.">

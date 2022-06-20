@@ -1,6 +1,6 @@
-<div *ngIf="!permissionLoading">
+<div *ngIf="product$ | async; else loading">
   <div *ngIf="(profile$ | async)!.can_operate_product; else notPermit">
-    <div *ngIf="product && (productStateStatus$ | async)! === 'loaded'" class="inner-content-box">
+    <div *ngIf="product && (product$ | async); else loading;" class="inner-content-box">
       <nz-descriptions [nzTitle]="title" nzBordered nzLayout="vertical" [nzExtra]="editButton">
         <nz-descriptions-item
           nzTitle="Product Identifier" [nzSpan]="2"
@@ -93,4 +93,9 @@
       <a nz-button nzType="primary" routerLink="/main">Back Home</a>
     </div>
   </nz-result>
+</ng-template>
+
+<ng-template #loading>
+  <nz-skeleton [nzActive]="true"></nz-skeleton>
+  <nz-skeleton [nzActive]="true"></nz-skeleton>
 </ng-template>

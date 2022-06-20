@@ -1,4 +1,4 @@
-<div class="inner-content-box" *ngIf="!permissionLoading">
+<div class="inner-content-box" *ngIf="profile$ | async; else loading">
   <form class="universal-form"
         nzLayout="vertical"
         (ngSubmit)="onSubmit()"
@@ -9,7 +9,7 @@
         <span *ngIf="guid" class="guid"> - #{{guid | uppercase}}</span>
       </h3>
     </div>
-    <ng-container *ngIf="!isProductLoading">
+    <ng-container *ngIf="selectedProduct$ | async; else loading">
       <nz-form-item>
         <nz-form-label nzRequired>Product Name</nz-form-label>
         <nz-form-control>
@@ -30,9 +30,9 @@
             formControlName="category"
           >
             <ng-container *ngFor="let o of categories$ | async">
-              <nz-option *ngIf="!isCategoriesLoading" [nzValue]="o.guid" [nzLabel]="o.name | uppercase"></nz-option>
+              <nz-option *ngIf="(categories$ | async)" [nzValue]="o.guid" [nzLabel]="o.name | uppercase"></nz-option>
             </ng-container>
-            <nz-option *ngIf="isCategoriesLoading" nzDisabled nzCustomContent>
+            <nz-option *ngIf="categories$ | async" nzDisabled nzCustomContent>
               <i nz-icon nzType="loading" class="loading-icon"></i>
               Loading Data...
             </nz-option>
@@ -90,4 +90,10 @@
       <a nz-button nzType="primary" routerLink="/main">Back Home</a>
     </div>
   </nz-result>
+</ng-template>
+
+<ng-template #loading>
+  <nz-skeleton [nzActive]="true"></nz-skeleton>
+  <nz-skeleton [nzActive]="true"></nz-skeleton>
+  <nz-skeleton [nzActive]="true"></nz-skeleton>
 </ng-template>
