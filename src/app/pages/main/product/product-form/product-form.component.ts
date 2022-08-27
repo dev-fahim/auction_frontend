@@ -32,6 +32,10 @@ import {
 export class ProductFormComponent implements OnInit, OnDestroy {
   @Input() guid?: string | null;
   @Input() title = 'Add Product';
+  @Input() viewLoading = false;
+  @Input() product?: ProductSchema | null;
+
+  isLoading = false;
 
   form: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -46,26 +50,10 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   bid_starts: Date = new Date();
   bid_expires: Date = new Date();
 
-  permissionLoading = true;
-
-  @Select(ProfileState.profile)
-  profile$?: Observable<ProfileSchema>;
-  profileSubscription?: Subscription;
-
-  isLoading = true;
-  isCategoriesLoading = true;
-  isProductLoading = true;
-
   @Select(CategoryState.categories)
   categories$?: Observable<CategorySchema[]>;
-  categoriesSubscription?: Subscription;
 
-  @Select(ProductState.selectedProduct)
-  selectedProduct$?: Observable<ProductSchema>;
-  @Select(ProductState.status)
-  productStateStatus$?: Observable<string>;
   productSubscription?: Subscription;
-  selectedProductSubscription?: Subscription;
 
   disabledDate = (current: Date): boolean =>
     differenceInCalendarDays(current, Date.now()) < 1;
@@ -77,54 +65,28 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.productSubscription?.unsubscribe();
-    this.selectedProductSubscription?.unsubscribe();
-    this.categoriesSubscription?.unsubscribe();
-    this.profileSubscription?.unsubscribe();
     this.store.dispatch(new UnselectSingleProduct());
   }
 
   ngOnInit(): void {
-    // this.store.dispatch(new GetProfile());
     this.store.dispatch(new GetCategories());
-
-    if (this.guid) {
-      this.isLoading = true;
-      this.isProductLoading = true;
-      this.store.dispatch(new GetSingleProduct(this.guid));
-      this.selectedProductSubscription = this.selectedProduct$!.subscribe({
-        next: (val) => {
-          if (val) {
-            this.isLoading = false;
-            this.isProductLoading = false;
-
-            if (!val.is_updatable) {
-              console.log('ehere')
-              this.msg.error('Product is submitted for review, so it\'s locked now');
-              this.router.navigate(['/main', 'product', 'edit', val.guid]);
-            } else {
-
-              this.bid_starts = new Date(Date.parse(val.bid_starts ?? ''));
-              this.bid_expires = new Date(Date.parse(val.bid_expires ?? ''));
-              this.has_default_dates = true;
-              this.form.setValue({
-                name: val.name,
-                category: val.category?.guid,
-                bid_starts: val.bid_starts,
-                bid_expires: val.bid_expires,
-                description: val.description,
-                min_bid_price: val.min_bid_price
-              });
-            }
-          }
-        },
-        error: () => {
-          this.router.navigate(['/main', 'product', 'all'])
-        }
-      });
-    } else {
-      this.isProductLoading = false;
-      this.isLoading = false;
+    if (this.guid && this.product) {
+      if (!this.product.is_updatable) {
+        this.msg.error('Product is submitted for review, so it\'s locked now');
+        this.router.navigate(['/main', 'product', 'edit', this.product.guid]);
+      } else {
+        this.bid_starts = new Date(Date.parse(this.product.bid_starts ?? ''));
+        this.bid_expires = new Date(Date.parse(this.product.bid_expires ?? ''));
+        this.has_default_dates = true;
+        this.form.setValue({
+          name: this.product.name,
+          category: this.product.category?.guid,
+          bid_starts: this.product.bid_starts,
+          bid_expires: this.product.bid_expires,
+          description: this.product.description,
+          min_bid_price: this.product.min_bid_price
+        });
+      }
     }
   }
 

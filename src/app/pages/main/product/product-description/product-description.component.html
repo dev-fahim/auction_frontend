@@ -1,4 +1,4 @@
-<div *ngIf="product$ | async; else loading">
+<div *ngIf="profile$ | async; else loading">
   <div *ngIf="(profile$ | async)!.can_operate_product; else notPermit">
     <div *ngIf="product && (product$ | async); else loading;" class="inner-content-box">
       <nz-descriptions [nzTitle]="title" nzBordered nzLayout="vertical" [nzExtra]="editButton">

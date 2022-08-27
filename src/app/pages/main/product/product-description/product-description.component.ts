@@ -21,12 +21,12 @@ import {ProductState} from "../../../../../@auction/store/product/state";
 })
 export class ProductDescriptionComponent implements OnInit, OnDestroy {
   productSubscription?: Subscription;
-  product: ProductSchema | null = null;
+  product?: ProductSchema;
   guid: string | null = '';
 
   @Select(ProfileState.profile)
   profile$: Observable<ProfileSchema> | undefined;
-  profileSubscription: Subscription | null = null;
+  profileSubscription?: Subscription;
 
   @Select(ProductState.selectedProduct)
   product$?: Observable<ProductSchema>;

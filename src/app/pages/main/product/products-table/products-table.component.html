@@ -12,7 +12,8 @@
     >
       <thead>
       <tr>
-        <th nzColumnKey="name" [nzSortFn]="true">Name</th>
+        <th nzColumnKey="guid">GUID</th>
+        <th nzColumnKey="name">Name</th>
         <th nzColumnKey="created" >Added at</th>
         <th nzColumnKey="is_verified" >Verification</th>
         <th nzColumnKey="category" >Category</th>
@@ -21,6 +22,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let data of (allProducts$ | async)!">
+        <td class="guid">{{data.guid | slice:0:6 | uppercase}}</td>
         <td><a [routerLink]="['/main', 'product', 'edit', data.guid]">{{data.name}}</a></td>
         <td>{{data.created | date}}</td>
         <td>

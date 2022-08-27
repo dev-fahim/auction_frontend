@@ -1,1 +1,19 @@
-<app-product-form></app-product-form>
+<ng-container *ngIf="profile$ | async; else loading;">
+  <ng-container *ngIf="(profile$ | async)!.can_operate_product; else notPermit;">
+    <app-product-form></app-product-form>
+  </ng-container>
+</ng-container>
+
+<ng-template #loading>
+  <nz-skeleton [nzActive]="true"></nz-skeleton>
+  <nz-skeleton [nzActive]="true"></nz-skeleton>
+  <nz-skeleton [nzActive]="true"></nz-skeleton>
+</ng-template>
+
+<ng-template #notPermit>
+  <nz-result nzStatus="403" nzTitle="403" nzSubTitle="Sorry, you are not authorized for this action.">
+    <div nz-result-extra>
+      <a nz-button nzType="primary" routerLink="/main">Back Home</a>
+    </div>
+  </nz-result>
+</ng-template>

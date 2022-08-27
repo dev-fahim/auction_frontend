@@ -25,6 +25,7 @@ import {ProfileState} from "../@auction/store/profile/state";
 import {CategoryState} from "../@auction/store/category/state";
 import {ProductState} from "../@auction/store/product/state";
 import {NgxsRouterPluginModule} from "@ngxs/router-plugin";
+import {AuctionState} from "../@auction/store/auction/auction.state";
 
 registerLocaleData(en);
 
@@ -38,7 +39,7 @@ registerLocaleData(en);
     HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    NgxsModule.forRoot([ProfileState, CategoryState, ProductState], {
+    NgxsModule.forRoot([ProfileState, CategoryState, ProductState, AuctionState], {
       developmentMode: !environment.production
     }),
     NgxsLoggerPluginModule.forRoot(),
@@ -52,7 +53,7 @@ registerLocaleData(en);
       accessToken: () => StorageService.get(TOKEN_KEY) ?? ''
     }))
   ],
-  providers: [StorageService, AuthService, AuthGuard, AuthNotGuard, { provide: NZ_I18N, useValue: en_US }],
+  providers: [StorageService, AuthService, AuthGuard, AuthNotGuard, {provide: NZ_I18N, useValue: en_US}],
   bootstrap: [AppComponent]
 })
 export class AppModule {
