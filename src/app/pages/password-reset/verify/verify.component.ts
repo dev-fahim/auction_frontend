@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {PasswordResetService} from "../../../../@auction/api";
+import {PasswordResetService} from "../../../../../@auction/api";
 import {finalize} from "rxjs";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {PasswordConfirmValidator} from "../../../../@auction/validators/password-confirm-validator";
+import {PasswordConfirmValidator} from "../../../../../@auction/validators/password-confirm-validator";
 
 @Component({
   selector: 'app-verify',

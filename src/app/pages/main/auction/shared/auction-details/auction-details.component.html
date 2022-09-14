@@ -1,0 +1,63 @@
+<nz-descriptions [nzTitle]="heading" *ngIf="auction && profile; else DetailsLoading" nzBordered>
+  <nz-descriptions-item nzTitle="Image" [nzSpan]="3">
+    <div class="clearfix tw-flex tw-flex-row">
+      <ng-container *ngIf="auction.product.images.length > 0; else noImages">
+        <img *ngFor="let image of auction.product.images" width="272" [src]="environment.api_base_path + image.image" alt="{{auction.product.name}}">
+      </ng-container>
+      <ng-template #noImages>
+        <img width="272" src="assets/images/auction-product-image-placeholder.png" alt="{{auction.product.name}}">
+      </ng-template>
+    </div>
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="Product Name">{{auction.product.name}}</nz-descriptions-item>
+  <nz-descriptions-item
+    nzTitle="Product Identifier" [nzSpan]="2"
+  >
+    <b class="guid" *ngIf="profile.can_operate_product; else bidder">
+      <a [routerLink]="['/main', 'product', 'edit', auction.product.guid]">#{{auction.product.guid | uppercase}}</a>
+    </b>
+    <ng-template #bidder>
+      <b class="guid">
+        #{{auction.product.guid | uppercase}}
+      </b>
+    </ng-template>
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="Category">{{auction.product.category?.name | uppercase}}</nz-descriptions-item>
+  <nz-descriptions-item nzTitle="Bid Expires">{{auction.bid_expires | date:'medium'}}</nz-descriptions-item>
+  <nz-descriptions-item
+    nzTitle="Minimum Credit Required">{{((auction.min_required_credit ?? 0) / 100) | currency}}</nz-descriptions-item>
+  <nz-descriptions-item nzTitle="Bid">
+    <button
+      *ngIf="profile.can_attend_auction; else seller"
+      nz-button nzType="primary"
+      class="tw-flex tw-flex-row tw-items-center"
+      nz-popconfirm=""
+      [nzPopconfirmTitle]="popTitle"
+      (nzOnConfirm)="onBidPlace((auction.next_bid ?? 0) + (amount * 100))">
+      <span>Place Bid</span>
+      <span nz-icon nzType="step-forward" nzTheme="outline"></span>
+      <span>Next Bid {{((auction.next_bid ?? 0) / 100) | currency}}</span>
+    </button>
+    <ng-template #seller>
+      <button nz-button nzType="primary"
+              class="tw-flex tw-flex-row tw-items-center">
+        <span nz-icon nzType="step-forward" nzTheme="outline"></span>
+        <span>Next Bid {{((auction.next_bid ?? 0) / 100) | currency}}</span>
+      </button>
+    </ng-template>
+  </nz-descriptions-item>
+  <ng-template #heading>
+    Auction Product <span class="tw-text-gray-300">#{{auction.guid | uppercase}}</span>
+  </ng-template>
+  <ng-template #popTitle>
+    {{((auction.next_bid ?? 0) / 100) | currency}} +
+    <nz-input-number [(ngModel)]="amount" [nzMin]="0" [nzStep]="100"></nz-input-number>
+  </ng-template>
+</nz-descriptions>
+<ng-template #DetailsLoading>
+  <nz-skeleton [nzActive]="true"></nz-skeleton>
+</ng-template>
+<div>
+  <plotly-plot [data]="timeSeriesData.data" [config]="timeSeriesData.config"></plotly-plot>
+</div>
+

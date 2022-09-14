@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {finalize} from "rxjs";
-import {AuthenticationService, PasswordResetService} from "../../../../@auction/api";
+import {AuthenticationService, PasswordResetService} from "../../../../../@auction/api";
 
 @Component({
   selector: 'app-enter-email',

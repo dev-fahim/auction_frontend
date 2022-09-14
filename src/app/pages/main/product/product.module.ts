@@ -22,11 +22,14 @@ import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
 import {NzResultModule} from "ng-zorro-antd/result";
 import {NzDividerModule} from "ng-zorro-antd/divider";
 import {ProductFormComponent} from './product-form/product-form.component';
-import { ProductUpdateComponent } from './product-description/product-update/product-update.component';
+import {ProductUpdateComponent} from './product-description/product-update/product-update.component';
 import {NzInputNumberModule} from "ng-zorro-antd/input-number";
 import {NzPopconfirmModule} from "ng-zorro-antd/popconfirm";
 import {NzAlertModule} from "ng-zorro-antd/alert";
 import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
+import {NzUploadModule} from "ng-zorro-antd/upload";
+import {NzModalModule} from "ng-zorro-antd/modal";
+import {NzImageModule} from "ng-zorro-antd/image";
 
 
 @NgModule({
@@ -61,6 +64,9 @@ import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
 	NzPopconfirmModule,
 	NzAlertModule,
 	NzSkeletonModule,
+	NzUploadModule,
+	NzModalModule,
+	NzImageModule
   ],
 })
 export class ProductModule {

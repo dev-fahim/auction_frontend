@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {ProductSchema, ProductsService, ProfileSchema} from "../../../../../@auction/api";
+import {ProductSchema, ProductsService, ProfileSchema} from "../../../../../../@auction/api";
 import {finalize, Observable, Subscription} from "rxjs";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {NzTableQueryParams} from "ng-zorro-antd/table";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Select, Store} from "@ngxs/store";
-import {ProfileState} from "../../../../../@auction/store/profile/state";
-import {GetProfile} from "../../../../../@auction/store/profile/actions";
-import {GetAllProducts} from "../../../../../@auction/store/product/actions";
-import {ProductState} from "../../../../../@auction/store/product/state";
+import {ProfileState} from "../../../../../../@auction/store/profile/state";
+import {GetProfile} from "../../../../../../@auction/store/profile/actions";
+import {GetAllProducts} from "../../../../../../@auction/store/product/actions";
+import {ProductState} from "../../../../../../@auction/store/product/state";
 
 @Component({
   selector: 'app-products-table',

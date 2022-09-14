@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
 @import "colors";
 $vertical-menu-icon-margin-right: 0.8em;
 
@@ -62,7 +66,7 @@ $vertical-menu-icon-margin-right: 0.8em;
 }
 
 .inner-app-content {
-  padding: 0 2em;
+  padding: 0 2em 2em 2em;
   background: #fff;
   height: 100%;
 }

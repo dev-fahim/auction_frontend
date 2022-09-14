@@ -1,18 +1,28 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ProductSchema, ProductsService, ProfileSchema, SubmitForProposalSchema} from "../../../../../@auction/api";
+import {
+  ProductDetailsSchema,
+  ProductSchema,
+  ProductsService,
+  ProfileSchema,
+  SubmitForProposalSchema
+} from "@auction/api";
 import {ActivatedRoute} from "@angular/router";
-import {finalize, Observable, Subscription} from "rxjs";
+import {first, Observable, Subscription} from "rxjs";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {Select, Store} from "@ngxs/store";
-import {ProfileState} from "../../../../../@auction/store/profile/state";
-import {GetProfile} from "../../../../../@auction/store/profile/actions";
+import {ProductDeleteImage, ProfileState, RefreshSingleProduct} from "@auction/store";
 import {
   DeleteProduct,
   GetSingleProduct,
   ProductSubmitForProposal,
   UnselectSingleProduct
-} from "../../../../../@auction/store/product/actions";
-import {ProductState} from "../../../../../@auction/store/product/state";
+} from "@auction/store";
+import {ProductState} from "@auction/store";
+import {NzUploadFile} from 'ng-zorro-antd/upload';
+import {getBase64} from "@auction/utils";
+import {TOKEN_KEY} from "../../../../../../@auction/contants";
+import {environment} from "../../../../../environments/environment";
+import {NzUploadChangeParam} from "ng-zorro-antd/upload/interface";
 
 @Component({
   selector: 'app-product-edit',
@@ -21,7 +31,7 @@ import {ProductState} from "../../../../../@auction/store/product/state";
 })
 export class ProductDescriptionComponent implements OnInit, OnDestroy {
   productSubscription?: Subscription;
-  product?: ProductSchema;
+  product?: ProductDetailsSchema;
   guid: string | null = '';
 
   @Select(ProfileState.profile)
@@ -29,15 +39,58 @@ export class ProductDescriptionComponent implements OnInit, OnDestroy {
   profileSubscription?: Subscription;
 
   @Select(ProductState.selectedProduct)
-  product$?: Observable<ProductSchema>;
+  product$?: Observable<ProductDetailsSchema>;
 
   @Select(ProductState.status)
-  productStateStatus$?: Observable<string>
+  productStateStatus$?: Observable<string>;
+
+  @Select(ProductState.images)
+  images?: Observable<NzUploadFile[]>;
+
+  fileList: Array<NzUploadFile> = [];
+  imageLoaded = false;
+
+  previewImage: string | undefined = '';
+  previewVisible = false;
 
   constructor(private acRouter: ActivatedRoute,
               private productService: ProductsService,
               private msg: NzMessageService,
-              private store: Store) { }
+              private store: Store) {
+  }
+
+  getToken(): string {
+    return 'Bearer ' + localStorage.getItem(TOKEN_KEY) ?? '';
+  }
+
+  getApiKey(): string {
+    return environment.api_keys;
+  }
+
+  getUploadUrl(productGUID: string): string {
+    return environment.api_base_path + '/api/products/add-image/' + productGUID;
+  }
+
+  fileChanged({file, fileList, event}: NzUploadChangeParam): void {
+    console.log(file)
+    if (file.response) {
+      this.fileList = [];
+      fileList.forEach((o) => {
+        if (o.uid === file.uid) {
+          o.uid = file.response['images'].pop()['guid'] ?? '';
+        }
+        const obj = Object.create(o);
+        Object.defineProperty(obj, 'status', {writable: true});
+        this.fileList.push(Object.create(obj));
+      });
+    }
+  }
+
+  removeImage = (file: NzUploadFile): boolean => {
+    file.status = 'removed';
+    this.store.dispatch(new ProductDeleteImage(file.uid));
+    return true;
+  }
 
   ngOnDestroy() {
     this.productSubscription?.unsubscribe();
@@ -50,7 +103,18 @@ export class ProductDescriptionComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetSingleProduct(this.guid ?? ''));
     this.productSubscription = this.product$?.subscribe({
       next: (val) => this.product = val
-    })
+    });
+    this.images?.subscribe({
+      next: (data) => {
+        this.fileList = [];
+        data.forEach((data) => {
+          const obj = Object.create(data);
+          Object.defineProperty(obj, 'status', {writable: true});
+          this.fileList.push(obj);
+        })
+        this.imageLoaded = true;
+      }
+    });
   }
 
   deleteProduct(): void {
@@ -63,4 +127,12 @@ export class ProductDescriptionComponent implements OnInit, OnDestroy {
     }
     this.store.dispatch(new ProductSubmitForProposal(proposal));
   }
+
+  handlePreview = async (file: NzUploadFile): Promise<void> => {
+    if (!file.url && !file['preview']) {
+      file['preview'] = await getBase64(file.originFileObj!);
+    }
+    this.previewImage = file.url || file['preview'];
+    this.previewVisible = true;
+  };
 }

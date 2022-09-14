@@ -1,0 +1,32 @@
+<div class="tw-m-5 tw-flex tw-flex-row tw-gap-4">
+  <div class="wrapper" style="width: fit-content">
+    <div>
+      <div *ngFor="let graph of adjMat; let i = index">
+        <div class="tw-flex tw-flex-row">
+          <div
+            (mousedown)="select(i, j)"
+            *ngFor="let cell of graph; let j = index"
+            [ngStyle]="{'width': boxL, 'height': boxL}"
+            class="box tw-text-center tw-duration-150"
+            [ngClass]="[cell.isSelected ? 'tw-bg-gray-400' : 'tw-bg-white', getBgClass(i, j)]">
+            <p *ngIf="cell.visited2" class="tw-text-white">-</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--<button (click)="bfs(false)">BFS</button>-->
+  <div>
+    <div class="tw-mb-2">
+      <!--  <button (click)="bfs(false)" class="tw-px-5 tw-py-2 tw-bg-blue-600 tw-text-white tw-mr-5">BFS</button>-->
+      <button (click)="bfs(true)" class="tw-px-5 tw-py-2 tw-bg-blue-600 tw-text-white tw-mr-5 tw-mb-2">Run Micky run!</button>
+      <button (click)="reload()" class="tw-px-5 tw-py-2 tw-bg-blue-600 tw-text-white tw-mr-5">Reload</button>
+    </div>
+    <div>
+      <div *ngIf="score">
+        <p class="tw-text-emerald-700 tw-font-bold tw-text-4xl">Your Score: {{score}}/100</p>
+      </div>
+    </div>
+  </div>
+</div>

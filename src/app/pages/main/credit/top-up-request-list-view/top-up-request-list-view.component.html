@@ -1,0 +1,47 @@
+<div *ngIf="(topUps | async) as topUps; else loading">
+  <div *ngIf="(profile$ | async)!.can_login; else notPermit">
+    <nz-table
+      [nzData]="topUps.data"
+      [nzFrontPagination]="false"
+      [nzLoading]="false"
+      [nzTotal]="topUps.count"
+      [nzPageSize]="topUps.data.length"
+      [nzPageIndex]="currentPage"
+      (nzQueryParams)="onQueryParamsChange($event)"
+      nzTitle="Top-Up Request History"
+      nzSize="middle"
+    >
+      <thead>
+      <tr>
+        <th nzColumnKey="guid">GUID</th>
+        <th nzColumnKey="name">Amount</th>
+        <th nzColumnKey="created" >Added at</th>
+        <th nzColumnKey="created" >Approved</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of topUps.data">
+        <td class="guid">{{data.guid | slice:0:6 | uppercase}}</td>
+        <td>{{((data.amount ?? 0) / 100) | currency}}</td>
+        <td>{{data.created | date:'medium'}}</td>
+        <td>{{data.approved}}</td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<ng-template #loading>
+  <nz-skeleton [nzActive]="true"></nz-skeleton>
+  <nz-skeleton [nzActive]="true"></nz-skeleton>
+  <nz-skeleton [nzActive]="true"></nz-skeleton>
+  <nz-skeleton [nzActive]="true"></nz-skeleton>
+</ng-template>
+
+<ng-template #notPermit>
+  <nz-result nzStatus="403" nzTitle="403" nzSubTitle="Sorry, you are not authorized for this action.">
+    <div nz-result-extra>
+      <a nz-button nzType="primary" routerLink="/main">Back Home</a>
+    </div>
+  </nz-result>
+</ng-template>

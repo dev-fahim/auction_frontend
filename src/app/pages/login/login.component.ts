@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AuthenticationService} from "../../../@auction/api";
+import {AuthenticationService} from "@auction/api";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {Router} from "@angular/router";
-import {AuthService} from "../../../@auction/services/auth.service";
+import {AuthService} from "@auction/services/auth.service";
 import {finalize} from "rxjs";
 
 @Component({

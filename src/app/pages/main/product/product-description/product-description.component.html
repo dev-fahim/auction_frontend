@@ -27,12 +27,60 @@
             <nz-alert nzType="error" nzMessage="Proposal Rejected" nzShowIcon nzIconType="warning"></nz-alert>
           </ng-container>
         </nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Proposed Min Bid Price">{{product.min_bid_price | currency}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Proposed Min Bid Price">{{((product.min_bid_price ?? 0) / 100) | currency}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="Bid Starts">{{product.bid_starts | date:'medium'}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="Bid Ends">{{product.bid_expires | date:'medium'}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="Description" [nzSpan]="3">{{product.description}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="Added at">{{product.created | date:'medium'}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="Last Modified">{{product.updated | date:'medium'}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Images" *ngIf="product.is_updatable; else staticImages">
+          <div class="clearfix" *ngIf="imageLoaded">
+            <nz-upload
+              [nzAction]="getUploadUrl(product.guid)"
+              [nzRemove]="removeImage"
+              [nzHeaders]="{
+                'Authorization': getToken()
+              }"
+              nzListType="picture-card"
+              [(nzFileList)]="fileList"
+              (nzChange)="fileChanged($event)"
+              [nzShowButton]="true"
+              [nzPreview]="handlePreview"
+              [nzFileType]="'image/png,image/jpeg'"
+              [nzLimit]="500"
+              [nzMultiple]="true"
+            >
+              <div>
+                <span nz-icon nzType="plus"></span>
+                <div style="margin-top: 8px">Upload</div>
+              </div>
+            </nz-upload>
+            <nz-modal
+              [nzVisible]="previewVisible"
+              [nzContent]="modalContent"
+              [nzFooter]="null"
+              (nzOnCancel)="previewVisible = false"
+            >
+              <ng-template #modalContent>
+                <img [src]="previewImage" [ngStyle]="{ width: '100%' }"  alt="Image"/>
+              </ng-template>
+            </nz-modal>
+          </div>
+        </nz-descriptions-item>
+        <ng-template #staticImages>
+
+          <nz-descriptions-item nzTitle="Images">
+            <div class="clearfix" *ngIf="imageLoaded">
+              <nz-image-group class="tw-flex tw-flex-row tw-items-center">
+                <img nz-image width="200px" *ngFor="let file of fileList" [nzSrc]="file.url ?? ''" [alt]="file.name" />
+              </nz-image-group>
+            </div>
+          </nz-descriptions-item>
+
+          <nz-descriptions-item nzTitle="Auction Link">
+            <a [routerLink]="['/main', 'ac', product.auction_guid]">Auction Link</a>
+          </nz-descriptions-item>
+        </ng-template>
       </nz-descriptions>
     </div>
   </div>

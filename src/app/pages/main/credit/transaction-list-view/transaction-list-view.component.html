@@ -1,0 +1,64 @@
+<div *ngIf="(transactions | async) as transactions; else loading">
+  <div *ngIf="(profile$ | async)!.can_login; else notPermit">
+    <nz-table
+      [nzData]="transactions.data"
+      [nzFrontPagination]="false"
+      [nzLoading]="false"
+      [nzTotal]="transactions.count"
+      [nzPageSize]="transactions.data.length"
+      [nzPageIndex]="currentPage"
+      (nzQueryParams)="onQueryParamsChange($event)"
+      nzTitle="Transaction History"
+      nzSize="middle"
+    >
+      <thead>
+      <tr>
+        <th nzColumnKey="guid">GUID</th>
+        <th nzColumnKey="name">Amount</th>
+        <th nzColumnKey="created">Added at</th>
+        <th nzColumnKey="purpose">Purpose</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of transactions.data">
+        <td class="guid">{{data.guid | slice:0:6 | uppercase}}</td>
+        <td [ngClass]="data.type == 'IN' ? 'tw-text-green-700' : 'tw-text-red-700'">
+          {{data.type == 'IN' ? '+' : '-'}}
+          {{((data.amount ?? 0) / 100) | currency}}</td>
+        <td>{{data.created | date:'medium'}}</td>
+        <td>
+          <ng-container *ngIf="data.auction as auction; else notAuction">
+            <span class="guid">{{auction.guid | slice:0:6 | uppercase}}</span>
+            <span><a [routerLink]="['/main', 'ac', auction.guid]"
+                     class="tw-ml-1">| {{auction.product.name | titlecase}}</a></span>
+            <span class="tw-ml-1" *ngIf="data.bid_transaction as bid"
+                  [ngClass]="bid.has_won ? 'tw-text-green-700' : 'tw-text-red-700'">| <span
+              *ngTemplateOutlet="description"></span></span>
+          </ng-container>
+          <ng-template #notAuction>
+            <span *ngTemplateOutlet="description"></span>
+          </ng-template>
+          <ng-template #description>
+            {{data.description === '' || data.description === null ? 'General' : data.description}}
+          </ng-template>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<ng-template #loading>
+  <nz-skeleton [nzActive]="true"></nz-skeleton>
+  <nz-skeleton [nzActive]="true"></nz-skeleton>
+  <nz-skeleton [nzActive]="true"></nz-skeleton>
+  <nz-skeleton [nzActive]="true"></nz-skeleton>
+</ng-template>
+
+<ng-template #notPermit>
+  <nz-result nzStatus="403" nzTitle="403" nzSubTitle="Sorry, you are not authorized for this action.">
+    <div nz-result-extra>
+      <a nz-button nzType="primary" routerLink="/main">Back Home</a>
+    </div>
+  </nz-result>
+</ng-template>

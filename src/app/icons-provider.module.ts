@@ -7,10 +7,11 @@ import {
   FormOutline,
   DashboardOutline,
   LogoutOutline,
-  CheckCircleTwoTone
+  CheckCircleTwoTone,
+  StepForwardFill
 } from '@ant-design/icons-angular/icons';
 
-const icons = [MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, FormOutline, LogoutOutline, CheckCircleTwoTone];
+const icons = [MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, FormOutline, LogoutOutline, CheckCircleTwoTone, StepForwardFill];
 
 @NgModule({
   imports: [NzIconModule],

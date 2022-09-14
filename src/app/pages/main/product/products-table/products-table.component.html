@@ -33,7 +33,7 @@
           </ng-template>
         </td>
         <td>{{data.category?.name | uppercase}}</td>
-        <td>{{data.bid_starts | date}} - {{data.bid_expires | date}} Begin with {{data.min_bid_price | currency}}</td>
+        <td>{{data.bid_starts | date}} - {{data.bid_expires | date}} Begin with {{((data.min_bid_price ?? 0) / 100) | currency}}</td>
       </tr>
       </tbody>
     </nz-table>

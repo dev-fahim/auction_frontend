@@ -1,0 +1,29 @@
+<ng-container *ngIf="(credit | async) as credit; else loading">
+  <nz-page-header
+    class="site-page-header"
+    nzBackIcon="arrow-left"
+    nzTitle="Credit Status"
+  >
+    <nz-page-header-extra>
+      <b class="tw-mx-5 tw-text-xl guid tw-text-gray-500 tw-uppercase">Acc<span>/{{credit.guid}}</span></b>
+      <b class="tw-text-xl">Balance:
+        <span class="tw-text-blue-600">{{((credit.balance ?? 0) / 100) | currency}}</span></b><b class="tw-text-xl">Expires:
+      <span class="tw-text-blue-600">{{credit.expiry | date:'medium'}}</span></b>
+    </nz-page-header-extra>
+  </nz-page-header>
+  <div class="inner-app-content">
+    <router-outlet></router-outlet>
+  </div>
+
+</ng-container>
+
+<ng-template #loading>
+  <div class="inner-app-content">
+    <div>
+      <nz-skeleton [nzActive]="true"></nz-skeleton>
+      <nz-skeleton [nzActive]="true"></nz-skeleton>
+      <nz-skeleton [nzActive]="true"></nz-skeleton>
+      <nz-skeleton [nzActive]="true"></nz-skeleton>
+    </div>
+  </div>
+</ng-template>

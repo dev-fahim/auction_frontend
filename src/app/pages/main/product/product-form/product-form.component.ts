@@ -1,7 +1,7 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Select, Store} from "@ngxs/store";
-import {ProfileState} from "../../../../../@auction/store/profile/state";
+import {ProfileState} from "../../../../../../@auction/store/profile/state";
 import {finalize, Observable, Subscription} from "rxjs";
 import {
   CategorySchema,
@@ -9,20 +9,20 @@ import {
   ProductSchema,
   ProductsService,
   ProfileSchema
-} from "../../../../../@auction/api";
-import {CategoryState} from "../../../../../@auction/store/category/state";
+} from "../../../../../../@auction/api";
+import {CategoryState} from "../../../../../../@auction/store/category/state";
 import {differenceInCalendarDays} from "date-fns";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {Router} from "@angular/router";
-import {GetProfile} from "../../../../../@auction/store/profile/actions";
-import {GetCategories} from "../../../../../@auction/store/category/actions";
-import {ProductState} from "../../../../../@auction/store/product/state";
+import {GetProfile} from "../../../../../../@auction/store/profile/actions";
+import {GetCategories} from "../../../../../../@auction/store/category/actions";
+import {ProductState} from "../../../../../../@auction/store/product/state";
 import {
   CreateProduct,
   GetSingleProduct,
   UnselectSingleProduct,
   UpdateProduct
-} from "../../../../../@auction/store/product/actions";
+} from "../../../../../../@auction/store/product/actions";
 
 @Component({
   selector: 'app-product-form',
@@ -77,15 +77,15 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       } else {
         this.bid_starts = new Date(Date.parse(this.product.bid_starts ?? ''));
         this.bid_expires = new Date(Date.parse(this.product.bid_expires ?? ''));
-        this.has_default_dates = true;
         this.form.setValue({
           name: this.product.name,
           category: this.product.category?.guid,
           bid_starts: this.product.bid_starts,
           bid_expires: this.product.bid_expires,
           description: this.product.description,
-          min_bid_price: this.product.min_bid_price
+          min_bid_price: (this.product.min_bid_price ?? 0) * 100
         });
+        this.has_default_dates = true;
       }
     }
   }

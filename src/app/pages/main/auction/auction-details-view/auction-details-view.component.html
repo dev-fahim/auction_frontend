@@ -1,0 +1,4 @@
+<app-auction-details
+  (bidPlaced)="onBidPlace($event)" [auction]="(auction | async)" [loading]="loading | async"
+  [profile]="(profile$ | async)"
+></app-auction-details>

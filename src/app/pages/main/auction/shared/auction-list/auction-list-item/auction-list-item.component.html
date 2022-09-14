@@ -1,0 +1,36 @@
+<div *ngIf="auction">
+  <nz-list-item>
+    <nz-list-item-meta>
+      <nz-list-item-meta-title>
+        <a routerLink="/main/ac/{{auction.guid}}">{{auction.product.name}}</a>
+      </nz-list-item-meta-title>
+      <nz-list-item-meta-description>
+        <div *ngIf="auction.product.category">
+          <a href="#" class="tw-text-blue-700 tw-underline">#{{auction.product.category!.name}}</a> <br><br>
+        </div>
+        <b>{{auction.created | date}}</b><br><br>
+        {{ auction.product.description }} <br>
+        <b class="tw-text-red-900 tw-text-xs"><i>Minimum credit {{((auction.min_required_credit ?? 0) / 100) | currency}}</i></b>
+      </nz-list-item-meta-description>
+    </nz-list-item-meta>
+    <ul nz-list-item-actions>
+      <nz-list-item-action>
+        <b class="tw-text-gray-700">Expires before {{auction.bid_expires | date:'medium'}}</b>
+      </nz-list-item-action>
+      <nz-list-item-action>
+        <button nz-button nzType="primary" class="tw-flex tw-flex-row tw-items-center"><span>Place Bid</span> <span
+          nz-icon nzType="step-forward" nzTheme="outline"></span>
+          <span>Next Bid {{((auction.next_bid ?? 0) / 100) | currency}}</span>
+        </button>
+      </nz-list-item-action>
+    </ul>
+    <nz-list-item-extra>
+      <img width="272" [src]="environment.api_base_path + auction.product.images[0].image" alt="{{auction.product.name}}"
+           *ngIf="auction.product.images.length > 0; else noImages">
+      <ng-template #noImages>
+        <img width="272" src="assets/images/auction-product-image-placeholder.png" alt="{{auction.product.name}}">
+      </ng-template>
+    </nz-list-item-extra>
+  </nz-list-item>
+  <hr>
+</div>

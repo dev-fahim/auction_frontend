@@ -66,13 +66,14 @@
       <nz-form-item>
         <nz-form-label nzRequired>Bid Duration</nz-form-label>
         <nz-form-control>
+          <label for="date-range" *ngIf="has_default_dates">Current Range: {{bid_starts | date}} - {{bid_expires | date}}</label>
           <nz-range-picker (nzOnCalendarChange)="splitRangedDatetime($event)"
                            [nzDisabledDate]="disabledDate"
                            style="width: 100%"
                            [nzShowTime]="{nzUse12Hours: true}"
                            nzFormat="yyyy-MM-dd HH:mm:ss a"
-                           [nzDefaultPickerValue]="has_default_dates ? [bid_starts, bid_expires] : []"
-                           nzMode="date"></nz-range-picker>
+                           [nzDefaultPickerValue]="[bid_starts, bid_expires]"
+                           nzMode="date" id="date-range"></nz-range-picker>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>

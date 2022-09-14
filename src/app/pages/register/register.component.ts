@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {UniqueEmailValidator} from "../../../@auction/validators/unique-email-validator";
-import {AuthenticationService} from "../../../@auction/api";
+import {UniqueEmailValidator} from "../../../../@auction/validators/unique-email-validator";
+import {AuthenticationService} from "../../../../@auction/api";
 import {NzMessageService} from "ng-zorro-antd/message";
-import {PasswordConfirmValidator} from "../../../@auction/validators/password-confirm-validator";
+import {PasswordConfirmValidator} from "../../../../@auction/validators/password-confirm-validator";
 import {finalize} from "rxjs";
 import {Router} from "@angular/router";
 

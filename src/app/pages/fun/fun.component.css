@@ -1,0 +1,73 @@
+.wrapper {
+  @apply tw-border tw-border-gray-200;
+}
+
+.box {
+
+}
+
+.box:hover {
+  @apply tw-border tw-border-red-200;
+  @apply tw-bg-red-200;
+}
+
+.box:active, .box:focus {
+  @apply tw-bg-red-500;
+}
+
+.selected {
+  @apply tw-bg-gray-400;
+}
+
+.start {
+  @apply tw-bg-red-500;
+}
+
+.destination {
+  background-color: #000080;
+}
+
+.bomb {
+  @apply tw-bg-orange-500 tw-rounded tw-rounded-2xl;
+}
+
+.burst {
+  @apply tw-bg-amber-400;
+}
+
+.blank {
+  @apply tw-bg-white;
+}
+
+.visited {
+  @apply tw-bg-emerald-700;
+  animation: visit 600ms ease-in-out;
+}
+
+.visiting {
+  @apply tw-bg-red-700;
+}
+
+@keyframes visit {
+  0% {
+    @apply tw-bg-red-500;
+  }
+  15% {
+    @apply tw-bg-amber-400;
+  }
+  30% {
+    @apply tw-bg-amber-300;
+  }
+  45% {
+    @apply tw-bg-amber-200;
+  }
+  60% {
+    @apply tw-bg-amber-100;
+  }
+  75% {
+    @apply tw-bg-emerald-500;
+  }
+  90% {
+    @apply tw-bg-emerald-600;
+  }
+}

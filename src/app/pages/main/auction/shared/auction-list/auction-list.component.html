@@ -1,0 +1,19 @@
+<div *ngIf="auctions; else ListLoading">
+
+  <nz-list nzItemLayout="vertical" [nzLoading]="loading">
+    <nz-list-header>
+      <nz-pagination (nzPageIndexChange)="onPageChange($event)" [nzPageIndex]="currentPage"
+                     [nzTotal]="auctions.total_pages"></nz-pagination>
+    </nz-list-header>
+    <div *ngFor="let auction of auctions.data">
+      <app-auction-list-item [auction]="auction"></app-auction-list-item>
+    </div>
+    <nz-list-footer>
+      <nz-pagination (nzPageIndexChange)="onPageChange($event)" [nzPageIndex]="currentPage"
+                     [nzTotal]="auctions.total_pages"></nz-pagination>
+    </nz-list-footer>
+  </nz-list>
+</div>
+<ng-template #ListLoading>
+  <p>Loading</p>
+</ng-template>

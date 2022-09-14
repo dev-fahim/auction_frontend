@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Select} from "@ngxs/store";
-import {ProfileState} from "../../../../../@auction/store/profile/state";
+import {ProfileState} from "../../../../../../@auction/store/profile/state";
 import {Observable} from "rxjs";
-import {ProfileSchema} from "../../../../../@auction/api";
+import {ProfileSchema} from "../../../../../../@auction/api";
 
 @Component({
   selector: 'app-product-add',

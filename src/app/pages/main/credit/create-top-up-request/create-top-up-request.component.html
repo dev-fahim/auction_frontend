@@ -1,0 +1,7 @@
+<div class="tw-flex tw-flex-row tw-justify-end">
+  <nz-input-number [(ngModel)]="amount" [nzMin]="1000" [nzMax]="100000" [nzStep]="500"></nz-input-number>
+  <button nz-button nzType="primary" (click)="onRequest()" [disabled]="disabled">Request</button>
+</div>
+<div>
+  <app-top-up-request-list-view></app-top-up-request-list-view>
+</div>

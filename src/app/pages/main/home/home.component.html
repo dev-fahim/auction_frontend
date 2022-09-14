@@ -1,1 +1,36 @@
-<p>home works!</p>
+<div class="tw-flex tw-flex-row tw-justify-between">
+  <div class="tw-flex-grow">
+    <h1 class="tw-text-4xl tw-m-20 tw-font-black">Console Home</h1>
+    <div style="background: #ECECEC; padding: 30px;">
+      <nz-row [nzGutter]="16">
+        <nz-col class="tw-flex-grow">
+          <nz-card>
+            <nz-statistic
+              [nzValue]="consoleData?.total_products ?? 0"
+              [nzTitle]="'Total Products'"
+              [nzValueStyle]="{ color: '#3F8600' }"
+            ></nz-statistic>
+<!--            <ng-template #prefixTplOne><span nz-icon nzType="arrow-up"></span></ng-template>-->
+          </nz-card>
+        </nz-col>
+        <nz-col class="tw-flex-grow">
+          <nz-card>
+            <nz-statistic
+              [nzValue]="consoleData?.total_running_auctions ?? 0"
+              [nzTitle]="'Running Auctions'"
+              [nzValueStyle]="{ color: '#CF1322' }"
+            ></nz-statistic>
+<!--            <ng-template #prefixTplTwo><span nz-icon nzType="arrow-down"></span></ng-template>-->
+          </nz-card>
+        </nz-col>
+      </nz-row>
+    </div>
+  </div>
+  <div>
+    <plotly-plot [data]="donutData.data" [layout]="donutData.layout" [config]="donutData.config"></plotly-plot>
+  </div>
+</div>
+<div>
+  <plotly-plot [data]="timeSeriesData.data" [config]="timeSeriesData.config"></plotly-plot>
+</div>
+
